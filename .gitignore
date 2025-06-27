@@ -1,0 +1,11 @@
+# Archivos de DBeaver
+*.dbeaver-data-sources.xml
+.dbeaver/
+
+# Archivos temporales de sistema
+*.log
+*.tmp
+*.DS_Store
+
+
+dist/
