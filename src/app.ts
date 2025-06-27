@@ -8,7 +8,7 @@ import express, { Application } from 'express';
 
 const app: Application = express();
 
-//Bas de datos
+
 
 //Middleware para parsear JSON
 app.use(express.json());
