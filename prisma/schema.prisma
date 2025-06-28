@@ -6,3 +6,88 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model categorias {
+  id                  Int       @id @default(autoincrement())
+  nombre              String    @db.VarChar(100)
+  descripcion         String?
+  activa              Boolean?  @default(true)
+  estado_auditoria    String?   @default("1") @db.Char(1)
+  fecha_creacion      DateTime? @default(now()) @db.Timestamp(6)
+  fecha_actualizacion DateTime? @db.Timestamp(6)
+  cursos              cursos[]
+}
+
+model cursos {
+  id                  Int             @id @default(autoincrement())
+  titulo              String          @db.VarChar(200)
+  descripcion         String?
+  precio              Decimal         @db.Decimal(10, 2)
+  categoria_id        Int?
+  instructor_id       Int?
+  duracion_horas      Int?
+  nivel               String?         @db.VarChar(20)
+  fecha_creacion      DateTime?       @default(now()) @db.Timestamp(6)
+  activo              Boolean?        @default(true)
+  estado_auditoria    String?         @default("1") @db.Char(1)
+  fecha_actualizacion DateTime?       @db.Timestamp(6)
+  categorias          categorias?     @relation(fields: [categoria_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  instructores        instructores?   @relation(fields: [instructor_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  inscripciones       inscripciones[]
+  modulos             modulos[]
+}
+
+model inscripciones {
+  id                  Int       @id @default(autoincrement())
+  usuario_id          Int?
+  curso_id            Int?
+  fecha_inscripcion   DateTime? @default(now()) @db.Timestamp(6)
+  progreso            Decimal?  @default(0) @db.Decimal(5, 2)
+  completado          Boolean?  @default(false)
+  estado_auditoria    String?   @default("1") @db.Char(1)
+  fecha_creacion      DateTime? @default(now()) @db.Timestamp(6)
+  fecha_actualizacion DateTime? @db.Timestamp(6)
+  cursos              cursos?   @relation(fields: [curso_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  usuarios            usuarios? @relation(fields: [usuario_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model instructores {
+  id                  Int       @id @default(autoincrement())
+  usuario_id          Int?
+  biografia           String?
+  foto_url            String?   @db.VarChar(255)
+  especialidad        String?   @db.VarChar(100)
+  rating              Decimal?  @default(0) @db.Decimal(3, 2)
+  estado_auditoria    String?   @default("1") @db.Char(1)
+  fecha_creacion      DateTime? @default(now()) @db.Timestamp(6)
+  fecha_actualizacion DateTime? @db.Timestamp(6)
+  cursos              cursos[]
+  usuarios            usuarios? @relation(fields: [usuario_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model modulos {
+  id                  Int       @id @default(autoincrement())
+  curso_id            Int?
+  titulo              String    @db.VarChar(150)
+  descripcion         String?
+  orden               Int
+  estado_auditoria    String?   @default("1") @db.Char(1)
+  fecha_creacion      DateTime? @default(now()) @db.Timestamp(6)
+  fecha_actualizacion DateTime? @db.Timestamp(6)
+  cursos              cursos?   @relation(fields: [curso_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model usuarios {
+  id                  Int             @id @default(autoincrement())
+  nombre              String          @db.VarChar(100)
+  email               String          @unique @db.VarChar(150)
+  password            String          @db.VarChar(255)
+  rol                 String?         @default("estudiante") @db.VarChar(20)
+  fecha_registro      DateTime?       @default(now()) @db.Timestamp(6)
+  activo              Boolean?        @default(true)
+  estado_auditoria    String?         @default("1") @db.Char(1)
+  fecha_creacion      DateTime?       @default(now()) @db.Timestamp(6)
+  fecha_actualizacion DateTime?       @db.Timestamp(6)
+  inscripciones       inscripciones[]
+  instructores        instructores[]
+}
