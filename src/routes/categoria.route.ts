@@ -1,5 +1,5 @@
 import  express, { Router } from 'express';
-import { listarCategorias } from '../controllers/categorias.controller';
+import { listarCategorias, obtenerCategoria } from '../controllers/categorias.controller';
 
 
 
@@ -7,12 +7,12 @@ const router: Router = express.Router();
 
 router.get('/', listarCategorias); // categorias
 
-// router.get('/:id', obtenerTipoDocumento); // tipo-documentos/:id
+router.get('/:id', obtenerCategoria); // categorias/:id
 
-// router.post('/', insertarTipoDocumento);
+// router.post('/', insertarCategoria); 
 
-// router.put('/:id', modificarTipoDocumento);
+// router.put('/:id', modificarCategoria);
 
-// router.delete('/:id', eliminarTipoDocumento);
+// router.delete('/:id', eliminarCategoria);
 
 export default router;

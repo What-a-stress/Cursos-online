@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { categorias, PrismaClient } from "@prisma/client";
 import { Categorias } from '../models/categorias';
 
 
@@ -13,7 +13,7 @@ export const listarCategorias = async () => {
        estado_auditoria: '1'
     },
       orderBy: {  
-       id: 'asc' // Ordenar por id de forma ascendente
+       id: 'asc' // Ordenena 
       }
     });
 
@@ -23,13 +23,11 @@ export const listarCategorias = async () => {
 export const obtenerCategoria = async (id: number) => {
     console.log('categoria.service::obtenerCategoria');
     
-    // const categoria: Categorias | null = await prisma.categorias.findUnique({
-    //     where: { id }
-    // });
+    const categoria: categorias | null = await prisma.categorias.findUnique({
+        where: {
+            id: id
+        }
+    });
 
-    // if (!categoria) {
-    //     throw new Error(`Categoria with id ${id} not found`);
-    // }
-
-    // return categoria;
+    return categoria;
 }

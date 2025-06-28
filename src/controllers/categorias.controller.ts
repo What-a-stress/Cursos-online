@@ -20,4 +20,12 @@ export const listarCategorias = async (req: Request, res: Response) => {
 export const obtenerCategoria = async (req: Request, res: Response) => {
     console.log('categorias.controller::obtenerCategoria');
     
+     try {
+        const {id} = req.params;
+        const categoria = await CategoriaService.obtenerCategoria(Number(id));
+        res.json(ResponseModel.success(categoria));
+    } catch (error: any) {
+        console.error(error.message);
+        res.status(STATUS_INTERNAL_SERVER_ERROR).json(ResponseModel.error(error.message));
+    }
 }
