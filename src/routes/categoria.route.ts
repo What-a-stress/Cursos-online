@@ -1,5 +1,5 @@
 import  express, { Router } from 'express';
-import { listarCategorias } from '../controllers/categoria.controller'; // ✅ correcto
+import { listarCategorias } from '../controllers/categorias.controller';
 
 
 

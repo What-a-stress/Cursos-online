@@ -15,5 +15,9 @@ export const listarCategorias = async (req: Request, res: Response) => {
        res.status(STATUS_INTERNAL_SERVER_ERROR).json(ResponseModel.error(error.message));
     }
 
+}
 
+export const obtenerCategoria = async (req: Request, res: Response) => {
+    console.log('categorias.controller::obtenerCategoria');
+    
 }

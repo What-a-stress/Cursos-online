@@ -19,3 +19,17 @@ export const listarCategorias = async () => {
 
     return Categorias;
 }
+
+export const obtenerCategoria = async (id: number) => {
+    console.log('categoria.service::obtenerCategoria');
+    
+    // const categoria: Categorias | null = await prisma.categorias.findUnique({
+    //     where: { id }
+    // });
+
+    // if (!categoria) {
+    //     throw new Error(`Categoria with id ${id} not found`);
+    // }
+
+    // return categoria;
+}
