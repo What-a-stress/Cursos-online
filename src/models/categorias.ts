@@ -1,9 +1,10 @@
 
-export interface Categoria {
-    id: number;
-    nombre: string;
-    descripcion: string | null;
-    estado_auditoria: string | null;
-    fecha_creacion: Date | null;
-    fecha_actualizacion: Date | null;
+export interface Categorias {
+    id                   : number;
+    nombre               : String | null;
+    descripcion          : String | null;
+    estado_auditoria     : String | null; 
+    fecha_creacion       : Date | null;
+    fecha_actualizacion  : Date | null;
+  
 }
