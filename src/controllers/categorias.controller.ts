@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
 import { ResponseModel } from '../shared/responseModel';
 import * as CategoriaService from '../services/categoria.service';
-import { STATUS_INTERNAL_SERVER_ERROR } from '../shared/constants';
+import { STATUS_INTERNAL_SERVER_ERROR,STATUS_BAD_REQUEST } from '../shared/constants';
+import { categoriaCrearSchema } from "../schemas/categoriaSchema";
+
+
 
 
 
@@ -32,18 +35,23 @@ export const obtenerCategoria = async (req: Request, res: Response) => {
 }
 
 
-export const insertarCategoria = async (req: Request, res: Response) => {
-    console.log('categoria.controller::insertarCategoria');
+export const insertarCategoria = async (req: Request, res: Response): Promise<any> => {
+    console.log('categoriasController::insertarCategoria');
+
+    const { error } = categoriaCrearSchema.validate(req.body); 
+    if (error) {
+        return res.status(STATUS_BAD_REQUEST).json(ResponseModel.error(error.message)); 
+    }
 
     try {
         const response = await CategoriaService.insertarCategoria(req.body);
-        res.json(ResponseModel.success(null,response));
-    }catch (error: any) {
+        res.json(ResponseModel.success(response)); 
+    } catch (error: any) {
         console.error(error.message);
         res.status(STATUS_INTERNAL_SERVER_ERROR).json(ResponseModel.error(error.message));
     }
+};
 
-}
 
 
 export const modificarCategoria = async (req: Request, res: Response) => {
