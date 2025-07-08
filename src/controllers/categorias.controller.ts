@@ -4,6 +4,7 @@ import * as CategoriaService from '../services/categoria.service';
 import { STATUS_INTERNAL_SERVER_ERROR } from '../shared/constants';
 
 
+
 export const listarCategorias = async (req: Request, res: Response) => {
     console.log('categorias.controller::listarCategorias');
     
@@ -28,4 +29,53 @@ export const obtenerCategoria = async (req: Request, res: Response) => {
         console.error(error.message);
         res.status(STATUS_INTERNAL_SERVER_ERROR).json(ResponseModel.error(error.message));
     }
+}
+
+
+export const insertarCategoria = async (req: Request, res: Response) => {
+    console.log('categoria.controller::insertarCategoria');
+
+    try {
+        const response = await CategoriaService.insertarCategoria(req.body);
+        res.json(ResponseModel.success(null,response));
+    }catch (error: any) {
+        console.error(error.message);
+        res.status(STATUS_INTERNAL_SERVER_ERROR).json(ResponseModel.error(error.message));
+    }
+
+}
+
+
+export const modificarCategoria = async (req: Request, res: Response) => {
+    console.log('categoria.service::modificarCategoria');
+
+    try {
+        const { id } = req.params;
+        const response = await CategoriaService.modificarCategoria(Number(id), req.body);
+        res.json(ResponseModel.success(null, response));
+
+    }catch (error: any) {
+        console.error(error.message);
+        res.status(STATUS_INTERNAL_SERVER_ERROR).json(ResponseModel.error(error.message));
+
+    }
+}
+
+
+export const eliminarCategoria = async (req: Request, res: Response) => {
+    console.log('categoria.service::modificarCategoria'); 
+    
+    try{
+       const { id } = req.params;
+       const response = await CategoriaService.eliminarCategoria(Number(id));
+       res.json(ResponseModel.success(null, response));
+       
+    } catch (error: any) {
+        console.error(error.message);
+        res.status(STATUS_INTERNAL_SERVER_ERROR).json(ResponseModel.error(error.message));
+
+    }
+    
+
+
 }

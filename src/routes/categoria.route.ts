@@ -1,5 +1,12 @@
 import  express, { Router } from 'express';
-import { listarCategorias, obtenerCategoria } from '../controllers/categorias.controller';
+import { 
+    listarCategorias,
+    obtenerCategoria,
+    insertarCategoria, 
+    modificarCategoria,
+    eliminarCategoria
+} from '../controllers/categorias.controller';
+
 
 
 
@@ -9,10 +16,10 @@ router.get('/', listarCategorias); // categorias
 
 router.get('/:id', obtenerCategoria); // categorias/:id
 
-// router.post('/', insertarCategoria); 
+router.post('/', insertarCategoria); 
 
-// router.put('/:id', modificarCategoria);
+router.put('/:id', modificarCategoria);
 
-// router.delete('/:id', eliminarCategoria);
+router.delete('/:id', eliminarCategoria);
 
 export default router;

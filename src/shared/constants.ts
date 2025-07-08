@@ -7,9 +7,9 @@ export const STATUS_FORBIDDEN = 403;
 export const STATUS_NOT_FOUND = 404;
 export const STATUS_INTERNAL_SERVER_ERROR = 500;
 
-export const RESPONSE_INSERT_OK = 'Insertado satisfactoriamnte';
-export const RESPONSE_UPDATE_OK = 'Modificado satisfactoriamnte';
-export const RESPONSE_DELETE_OK = 'Eliminado satisfactoriamnte';
+export const RESPONSE_INSERT_OK = 'Insertado satisfactoriamente';
+export const RESPONSE_UPDATE_OK = 'Modificado satisfactoriamente';
+export const RESPONSE_DELETE_OK = 'Eliminado satisfactoriamente';
 
 
 // ESTO ES ESTANDARIZACIÓN (BUENAS PRÁCTICAS)
