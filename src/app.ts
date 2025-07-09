@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 // Importa las nuevas rutas para tus tablas
+import path from 'path';
 import CategoriaRoute from './routes/categoria.route';
 import usuariosRoute from './routes/usuario.route';
 import cursosRoute from './routes/curso.route';
@@ -22,6 +23,8 @@ const app: Application = express();
 //Middleware para parsear JSON
 app.use(express.json());
 app.use(cors());
+app.use(express.static(path.join(__dirname, '../public')));
+
 
 //Rutas
 app.use(`${env.API_PREFIX}/categorias`, CategoriaRoute);
