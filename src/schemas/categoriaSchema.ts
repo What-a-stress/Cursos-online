@@ -2,13 +2,13 @@ import Joi from 'joi';
 
 export const categoriaCrearSchema = Joi.object({
     nombre: Joi.string()
-        .max(100)
+        .max(50)
         .required()
         .messages({
             'string.base': 'El nombre debe ser texto.',
             'string.empty': 'El nombre es obligatorio.',
-            'string.max': 'El nombre no debe exceder los 100 caracteres.',
-            'any.required': 'nombre no puede estar vacío.',
+            'string.max': 'El nombre no debe exceder los 50 caracteres.',
+            'any.required': 'El nombre es obligatorio',
         }),
 
     descripcion: Joi.string()

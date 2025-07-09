@@ -41,7 +41,7 @@ model inscripciones {
   usuario_id          Int?
   curso_id            Int?
   fecha_inscripcion   DateTime? @default(now()) @db.Timestamp(6)
-  progreso            Decimal?  @default(0) @db.Decimal(5, 2)
+  progreso            Int?      @default(0)
   completado          Boolean?  @default(false)
   estado_auditoria    String?   @default("1") @db.Char(1)
   fecha_creacion      DateTime? @default(now()) @db.Timestamp(6)

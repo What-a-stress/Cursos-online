@@ -36,7 +36,7 @@ export const obtenerCategoria = async (req: Request, res: Response) => {
 
 
 export const insertarCategoria = async (req: Request, res: Response): Promise<any> => {
-    console.log('categoriasController::insertarCategoria');
+    console.log('categorias.Controller::insertarCategoria');
 
     const { error } = categoriaCrearSchema.validate(req.body); 
     if (error) {
@@ -55,7 +55,7 @@ export const insertarCategoria = async (req: Request, res: Response): Promise<an
 
 
 export const modificarCategoria = async (req: Request, res: Response) => {
-    console.log('categoria.service::modificarCategoria');
+    console.log('categorias.controller::modificarCategoria');
 
     try {
         const { id } = req.params;
@@ -71,7 +71,7 @@ export const modificarCategoria = async (req: Request, res: Response) => {
 
 
 export const eliminarCategoria = async (req: Request, res: Response) => {
-    console.log('categoria.service::modificarCategoria'); 
+    console.log('categorias.controller::modificarCategoria'); 
     
     try{
        const { id } = req.params;
@@ -84,6 +84,4 @@ export const eliminarCategoria = async (req: Request, res: Response) => {
 
     }
     
-
-
 }

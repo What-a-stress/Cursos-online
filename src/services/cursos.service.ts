@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 
 export const listarCursos = async () => {
     console.log('cursosService::listarCursos');
+   
     return await prisma.cursos.findMany({
         where: {
             estado_auditoria: '1'
