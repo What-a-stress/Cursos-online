@@ -12,9 +12,9 @@ import {
 
 const router: Router = express.Router();
 
-router.get('/', listarCategorias); // categorias
+router.get('/', listarCategorias); 
 
-router.get('/:id', obtenerCategoria); // categorias/:id
+router.get('/:id', obtenerCategoria); 
 
 router.post('/', insertarCategoria); 
 

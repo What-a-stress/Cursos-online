@@ -1,8 +1,10 @@
 import { PrismaClient } from "@prisma/client";
-import { Instructor } from "../models/instructor"; // Asegúrate de que esta ruta sea correcta para tu interfaz Instructor
+import { Instructor } from "../models/instructor"; 
 import { RESPONSE_DELETE_OK, RESPONSE_INSERT_OK, RESPONSE_UPDATE_OK } from "../shared/constants";
 
 const prisma = new PrismaClient();
+
+
 
 export const listarInstructores = async () => {
     console.log('instructoresService::listarInstructores');
@@ -16,6 +18,8 @@ export const listarInstructores = async () => {
     });
 }
 
+
+
 export const obtenerInstructor = async (id: number) => {
     console.log('instructoresService::obtenerInstructor');
     return await prisma.instructores.findUnique({
@@ -24,6 +28,9 @@ export const obtenerInstructor = async (id: number) => {
         }
     });
 }
+
+
+
 
 export const insertarInstructor = async (instructor: Instructor) => {
     console.log('instructoresService::insertarInstructor');
@@ -41,6 +48,8 @@ export const insertarInstructor = async (instructor: Instructor) => {
     return RESPONSE_INSERT_OK;
 }
 
+
+
 export const modificarInstructor = async (id: number, instructor: Instructor) => {
     console.log('instructoresService::modificarInstructor');
     await prisma.instructores.update({
@@ -54,11 +63,13 @@ export const modificarInstructor = async (id: number, instructor: Instructor) =>
             especialidad: instructor.especialidad,
             rating: instructor.rating,
             estado_auditoria: instructor.estado_auditoria
-            // fecha_actualizacion se actualiza automáticamente en la BD
+           
         }
     });
     return RESPONSE_UPDATE_OK;
 }
+
+
 
 export const eliminarInstructor = async (id: number) => {
     console.log('instructoresService::eliminarInstructor');

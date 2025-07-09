@@ -18,6 +18,8 @@ export const listarModulos = async (req: Request, res: Response) => {
     }
 };
 
+
+
 export const obtenerModulo = async (req: Request, res: Response) => {
     console.log('modulos.controller::obtenerModulo');
 
@@ -30,6 +32,8 @@ export const obtenerModulo = async (req: Request, res: Response) => {
         res.status(STATUS_INTERNAL_SERVER_ERROR).json(ResponseModel.error(error.message));
     }
 };
+
+
 
 export const insertarModulo = async (req: Request, res: Response): Promise<any> => {
     console.log('modulos.controller::insertarModulo');
@@ -48,6 +52,9 @@ export const insertarModulo = async (req: Request, res: Response): Promise<any> 
     }
 };
 
+
+
+
 export const modificarModulo = async (req: Request, res: Response) => {
     console.log('modulos.controller::modificarModulo');
 
@@ -60,6 +67,9 @@ export const modificarModulo = async (req: Request, res: Response) => {
         res.status(STATUS_INTERNAL_SERVER_ERROR).json(ResponseModel.error(error.message));
     }
 };
+
+
+
 
 export const eliminarModulo = async (req: Request, res: Response) => {
     console.log('modulos.controller::eliminarModulo');

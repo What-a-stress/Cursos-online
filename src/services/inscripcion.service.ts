@@ -1,12 +1,9 @@
 import { PrismaClient, inscripciones } from "@prisma/client";
 import { Inscripcion } from "../models/inscripcion";
-import {
-  RESPONSE_DELETE_OK,
-  RESPONSE_INSERT_OK,
-  RESPONSE_UPDATE_OK
-} from "../shared/constants";
-
+import { RESPONSE_DELETE_OK, RESPONSE_INSERT_OK, RESPONSE_UPDATE_OK } from "../shared/constants";
 const prisma = new PrismaClient();
+
+
 
 export const listarInscripciones = async () => {
   console.log("inscripcionesService::listarInscripciones");
@@ -21,6 +18,9 @@ export const listarInscripciones = async () => {
   });
 };
 
+
+
+
 export const obtenerInscripcion = async (id: number) => {
   console.log("inscripcionesService::obtenerInscripcion");
 
@@ -30,6 +30,9 @@ export const obtenerInscripcion = async (id: number) => {
     }
   });
 };
+
+
+
 
 export const insertarInscripcion = async (inscripcion: Inscripcion) => {
   console.log("inscripcionesService::insertarInscripcion");
@@ -46,6 +49,9 @@ export const insertarInscripcion = async (inscripcion: Inscripcion) => {
 
   return RESPONSE_INSERT_OK;
 };
+
+
+
 
 export const modificarInscripcion = async (
   id: number,
@@ -69,6 +75,9 @@ export const modificarInscripcion = async (
 
   return RESPONSE_UPDATE_OK;
 };
+
+
+
 
 export const eliminarInscripcion = async (id: number) => {
   console.log("inscripcionesService::eliminarInscripcion");

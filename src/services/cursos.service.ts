@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { Curso } from "../models/curso"; // Asegúrate de que esta ruta sea correcta para tu interfaz Curso
+import { Curso } from "../models/curso"; 
 import { RESPONSE_DELETE_OK, RESPONSE_INSERT_OK, RESPONSE_UPDATE_OK } from "../shared/constants";
 
 const prisma = new PrismaClient();

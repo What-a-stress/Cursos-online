@@ -4,6 +4,8 @@ import * as InscripcionService from '../services/inscripcion.service';
 import { STATUS_INTERNAL_SERVER_ERROR, STATUS_BAD_REQUEST } from '../shared/constants';
 import { inscripcionCrearSchema } from "../schemas/inscripcionSchema";
 
+
+
 export const listarInscripciones = async (req: Request, res: Response) => {
     console.log('inscripcion.controller::listarInscripciones');
     try {
@@ -14,6 +16,8 @@ export const listarInscripciones = async (req: Request, res: Response) => {
         res.status(STATUS_INTERNAL_SERVER_ERROR).json(ResponseModel.error(error.message));
     }
 };
+
+
 
 export const obtenerInscripcion = async (req: Request, res: Response) => {
     console.log('inscripcion.controller::obtenerInscripcion');
@@ -26,6 +30,8 @@ export const obtenerInscripcion = async (req: Request, res: Response) => {
         res.status(STATUS_INTERNAL_SERVER_ERROR).json(ResponseModel.error(error.message));
     }
 };
+
+
 
 export const insertarInscripcion = async (req: Request, res: Response): Promise<any> => {
     console.log('inscripcion.controller::insertarInscripcion');
@@ -43,6 +49,8 @@ export const insertarInscripcion = async (req: Request, res: Response): Promise<
     }
 };
 
+
+
 export const modificarInscripcion = async (req: Request, res: Response) => {
     console.log('inscripcion.controller::modificarInscripcion');
     try {
@@ -54,6 +62,9 @@ export const modificarInscripcion = async (req: Request, res: Response) => {
         res.status(STATUS_INTERNAL_SERVER_ERROR).json(ResponseModel.error(error.message));
     }
 };
+
+
+
 
 export const eliminarInscripcion = async (req: Request, res: Response) => {
     console.log('inscripcion.controller::eliminarInscripcion');

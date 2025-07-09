@@ -14,7 +14,7 @@ export const listarCategorias = async () => {
        estado_auditoria: '1'
     },
       orderBy: {  
-       id: 'asc' // Ordenena 
+       id: 'asc' // Ordenena de manera ascendente
       }
     });
 
@@ -79,6 +79,6 @@ export const eliminarCategoria = async (id: number) => {
         }
     });
 
-    return RESPONSE_DELETE_OK;
+    return RESPONSE_DELETE_OK;  //no elimina, solo cambia el estado a 0, hace una eliminación lógica
 
 }

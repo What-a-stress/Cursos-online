@@ -4,6 +4,8 @@ import { RESPONSE_DELETE_OK, RESPONSE_INSERT_OK, RESPONSE_UPDATE_OK } from "../s
 
 const prisma = new PrismaClient();
 
+
+
 export const listarModulos = async () => {
     console.log("modulo.service::listarModulos");
 
@@ -18,6 +20,9 @@ export const listarModulos = async () => {
 
     return modulosList;
 };
+
+
+
 
 export const obtenerModulo = async (id: number) => {
     console.log("modulo.service::obtenerModulo");
@@ -45,6 +50,9 @@ export const insertarModulo = async (nuevoModulo: modulos) => {
     return RESPONSE_INSERT_OK;
 };
 
+
+
+
 export const modificarModulo = async (id: number, datosModulo: modulos) => {
     console.log("modulo.service::modificarModulo");
 
@@ -58,6 +66,9 @@ export const modificarModulo = async (id: number, datosModulo: modulos) => {
 
     return RESPONSE_UPDATE_OK;
 };
+
+
+
 
 export const eliminarModulo = async (id: number) => {
     console.log("modulo.service::eliminarModulo");
