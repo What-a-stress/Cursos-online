@@ -1,8 +1,8 @@
-Plataforma de Cursos Online
+# Plataforma de Cursos Online
 
 Este proyecto es una plataforma web para gestionar cursos online, desarrollada con HTML, CSS, JavaScript y un backend en Node.js utilizando Prisma y PostgreSQL.
 
-Módulos implementados:
+## Módulos implementados:
 
 Gestión de usuarios (registro, login)
 
@@ -15,7 +15,7 @@ Visualización de catálogo de cursos
 Relación con categorías y validaciones de datos
 
 
-Tecnologías utilizadas 
+## Tecnologías utilizadas 
 
 Frontend: HTML, CSS, JavaScript Vanilla
 
