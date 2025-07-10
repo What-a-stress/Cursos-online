@@ -1,2 +1,26 @@
-# Cursos-online
-Esto es un proyecto final del Grupo8 construida con **Node.js** y **TypeScript**, diseñada para gestionar una plataforma de cursos en línea. Utiliza **PostgreSQL** como sistema de gestión de base de datos relacional.
+Plataforma de Cursos Online
+
+Este proyecto es una plataforma web para gestionar cursos online, desarrollada con HTML, CSS, JavaScript y un backend en Node.js utilizando Prisma y PostgreSQL.
+
+Módulos implementados:
+
+Gestión de usuarios (registro, login)
+
+Gestión de instructores (listado con fotos y ratings)
+
+Gestión de cursos (crear, listar, editar, eliminar)
+
+Visualización de catálogo de cursos
+
+Relación con categorías y validaciones de datos
+
+
+Tecnologías utilizadas 
+
+Frontend: HTML, CSS, JavaScript Vanilla
+
+Backend: Node.js, Express, Prisma ORM
+
+Base de datos: PostgreSQL
+
+Herramientas: Postman, DBeaver
