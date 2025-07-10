@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { ResponseModel } from '../shared/responseModel';
 import * as InscripcionService from '../services/inscripcion.service';
 import { STATUS_INTERNAL_SERVER_ERROR, STATUS_BAD_REQUEST } from '../shared/constants';
-import { inscripcionCrearSchema } from "../schemas/inscripcionSchema";
+import { inscripcionCrearSchema } from '../schemas/incripcionSchema';
 
 
 

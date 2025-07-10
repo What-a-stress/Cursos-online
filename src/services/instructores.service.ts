@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { Instructor } from "../models/instructor"; 
+import { Instructor } from "../models/instructor";
 import { RESPONSE_DELETE_OK, RESPONSE_INSERT_OK, RESPONSE_UPDATE_OK } from "../shared/constants";
 
 const prisma = new PrismaClient();
@@ -7,16 +7,19 @@ const prisma = new PrismaClient();
 
 
 export const listarInstructores = async () => {
-    console.log('instructoresService::listarInstructores');
-    return await prisma.instructores.findMany({
-        where: {
-            estado_auditoria: '1'
-        },
-        orderBy: {
-            id: 'asc'
-        }
-    });
-}
+  console.log('instructoresService::listarInstructores');
+  return await prisma.instructores.findMany({
+    where: {
+      estado_auditoria: '1'
+    },
+    include: {
+      usuarios: true //asegura que se incluya incluso si es null
+    },
+    orderBy: {
+      id: 'asc'
+    }
+  });
+};
 
 
 
@@ -63,7 +66,7 @@ export const modificarInstructor = async (id: number, instructor: Instructor) =>
             especialidad: instructor.especialidad,
             rating: instructor.rating,
             estado_auditoria: instructor.estado_auditoria
-           
+
         }
     });
     return RESPONSE_UPDATE_OK;

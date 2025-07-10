@@ -16,7 +16,7 @@ import env from './config/env';
 */
 
 
-const app: Application = express();
+const app = express();
 
 //Bas de datos
 
@@ -24,7 +24,6 @@ const app: Application = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../public')));
-
 
 //Rutas
 app.use(`${env.API_PREFIX}/categorias`, CategoriaRoute);

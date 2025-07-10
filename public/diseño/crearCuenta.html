@@ -1,55 +1,49 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Crear cuenta</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Ruta corregida para el CSS -->
-  <link rel="stylesheet" href="../estilos/style.css">
-  <style>
-    .error-message {
-      color: red;
-      text-align: center;
-      margin-bottom: 10px;
-    }
-    .success-message {
-      color: green;
-      text-align: center;
-      margin-bottom: 10px;
-    }
-    a:hover {
-      color: rgb(220, 27, 27);
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/estilos/style.css" />
 </head>
 <body>
-  <div class="container">
-    <p class="txt-1">CREAR CUENTA EN CURSOS ONLINE</p>
-  </div>
 
-  <form id="formCrearCuenta">
-    <h1><center>Ingrese sus datos</center></h1>
-    <div class="form-group">
-      <p>Nombres:</p>
-      <input type="text" class="box" name="nombre" placeholder="Ingrese su nombre completo" required>
+  <div class="login-container">
+    <h1>Crear Cuenta</h1>
+    <form id="formCrearCuenta">
+      <label for="nombre">Nombres completos:</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre completo" required />
 
-      <p>Email:</p>
-      <input type="email" class="box" name="email" placeholder="Ingrese su correo electrónico" required>
+      <label for="email">Correo electrónico:</label>
+      <input type="email" id="email" name="email" placeholder="Ingrese su correo electrónico" required />
 
-      <p>Contraseña:</p>
-      <input type="password" class="box" name="password" placeholder="Ingrese su contraseña" required>
-    </div>
-    <div class="form-group">
-      <center>
-        <input type="submit" value="Crear Cuenta" class="btn">
-        <br><br>
-        <!-- Ruta corregida para iniciar sesión -->
-        <a href="iniciarSesion.html">Ya tengo una cuenta</a>
-      </center>
-    </div>
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" name="password" placeholder="Ingrese su contraseña" required />
+
+      <label for="rol">Rol:</label>
+      <select id="rol" name="rol" required>
+        <option value="">Seleccione un rol</option>
+        <option value="ADMINISTRADOR">Administrador</option>
+        <option value="INSTRUCTOR">Instructor</option>
+      </select>
+
+      <button type="submit">Crear Cuenta</button>
+    </form>
+
     <div id="errorMsg" class="error-message"></div>
     <div id="successMsg" class="success-message"></div>
-  </form>
+
+    <p style="text-align: center; margin-top: 10px;">
+      <a href="iniciarSesion.html">¿Ya tienes una cuenta? Inicia sesión</a>
+    </p>
+  </div>
+
+  <!-- Navegación entre páginas -->
+   <nav>
+    <button onclick="location.href='instructores.html'">Instructores</button>
+    <button onclick="location.href='iniciarSesion.html'">Iniciar Sesión</button>
+    <button onclick="location.href='crearCuenta.html'">Crear Cuenta</button>
+  </nav>
 
   <script>
     const form = document.getElementById("formCrearCuenta");
@@ -61,32 +55,42 @@
       errorMsg.textContent = "";
       successMsg.textContent = "";
 
-      const data = {
-        nombre: form.nombre.value,
-        email: form.email.value,
-        password: form.password.value
-      };
+      const nombre = form.nombre.value.trim();
+      const email = form.email.value.trim();
+      const password = form.password.value;
+      const rol = form.rol.value;
+
+      // Validación: solo letras y espacios (sin números ni símbolos)
+      const nombreValido = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+      if (!nombreValido.test(nombre)) {
+        errorMsg.textContent = "El nombre no debe contener números ni símbolos.";
+        return;
+      }
+
+      if (!nombre || !email || !password || !rol) {
+        errorMsg.textContent = "Por favor, completa todos los campos.";
+        return;
+      }
 
       try {
         const response = await fetch("http://localhost:3000/api/v1/usuarios", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
+          body: JSON.stringify({ nombre, email, password, rol }),
         });
 
         const result = await response.json();
 
         if (!response.ok || result.success === false) {
-          errorMsg.textContent = result.message || "Error al crear cuenta.";
+          errorMsg.textContent = result.message || "❌ Error al crear cuenta.";
         } else {
-          successMsg.textContent = "Cuenta creada con éxito 🎉";
+          successMsg.textContent = "🎉 Cuenta creada con éxito.";
           setTimeout(() => {
-            // Ruta corregida para redirigir al inicio de sesión
             window.location.href = "iniciarSesion.html";
           }, 2000);
         }
       } catch (error) {
-        errorMsg.textContent = "Error del servidor. Intenta más tarde.";
+        errorMsg.textContent = "❌ Error del servidor. Intenta más tarde.";
         console.error(error);
       }
     });

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Editar Curso</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/estilos/style.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h1>Editar Curso</h1>
+    <form id="formEditarCurso">
+      <label for="titulo">Título:</label>
+      <input type="text" id="titulo" name="titulo" required />
+
+      <label for="precio">Precio:</label>
+      <input type="number" id="precio" name="precio" min="0" step="0.01" required />
+
+      <label for="instructorId">Instructor:</label>
+      <select id="instructorId" name="instructorId" required>
+        <option value="">Cargando...</option>
+      </select>
+
+      <button type="submit">Actualizar</button>
+    </form>
+
+    <p id="mensaje"></p>
+  </div>
+
+  <nav>
+    <button onclick="location.href='catalogo.html'">← Volver al Catálogo</button>
+  </nav>
+
+  <script>
+    const form = document.getElementById("formEditarCurso");
+    const mensaje = document.getElementById("mensaje");
+    const selectInst = document.getElementById("instructorId");
+    const params = new URLSearchParams(window.location.search);
+    const cursoId = params.get("id");
+
+    // Cargar instructores
+    async function cargarInstructores() {
+      try {
+        const res = await fetch("http://localhost:3000/api/v1/instructores");
+        const data = await res.json();
+        if (res.ok && Array.isArray(data.data)) {
+          selectInst.innerHTML = '<option value="">Seleccione un instructor</option>' +
+            data.data.map(i =>
+              `<option value="${i.id}">${i.usuarios?.nombre || i.nombre}</option>`
+            ).join("");
+        } else {
+          selectInst.innerHTML = '<option value="">Error al cargar instructores</option>';
+        }
+      } catch {
+        selectInst.innerHTML = '<option value="">Error al cargar instructores</option>';
+      }
+    }
+
+    // Cargar datos del curso
+    async function cargarCurso() {
+      try {
+        const res = await fetch(`http://localhost:3000/api/v1/cursos/${cursoId}`);
+        const data = await res.json();
+        if (res.ok) {
+          const c = data.data;
+          form.titulo.value = c.titulo;
+          form.precio.value = c.precio;
+          selectInst.value = c.instructor_id || "";
+        } else {
+          mensaje.textContent = "❌ " + data.message;
+        }
+      } catch {
+        mensaje.textContent = "❌ Error al cargar curso";
+      }
+    }
+
+    // Enviar actualización
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const titulo = form.titulo.value.trim();
+      const precio = parseFloat(form.precio.value);
+      const instructor_id = parseInt(form.instructorId.value);
+
+      // ✅ Validaciones
+      if (!titulo) {
+        mensaje.textContent = "⚠️ El título no puede estar vacío.";
+        mensaje.style.color = "red";
+        return;
+      }
+
+      if (titulo.length < 5) {
+        mensaje.textContent = "⚠️ El título debe tener al menos 5 caracteres.";
+        mensaje.style.color = "red";
+        return;
+      }
+
+      // No debe tener números, solo letras, tildes, espacios y puntuación permitida
+      const regexTitulo = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s.,:;!?()-]+$/;
+      if (!regexTitulo.test(titulo)) {
+        mensaje.textContent = "⚠️ El título no debe contener números ni símbolos no permitidos.";
+        mensaje.style.color = "red";
+        return;
+      }
+
+      if (isNaN(precio) || precio <= 10) {
+        mensaje.textContent = "⚠️ El precio debe ser mayor a 10.";
+        mensaje.style.color = "red";
+        return;
+      }
+
+      if (isNaN(instructor_id)) {
+        mensaje.textContent = "⚠️ Debes seleccionar un instructor.";
+        mensaje.style.color = "red";
+        return;
+      }
+
+      const upd = {
+        titulo,
+        precio,
+        instructor_id
+      };
+
+      try {
+        const res = await fetch(`http://localhost:3000/api/v1/cursos/${cursoId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(upd)
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          mensaje.textContent = "✅ Curso actualizado correctamente";
+          mensaje.style.color = "green";
+          setTimeout(() => window.location.href = "catalogo.html", 1500);
+        } else {
+          mensaje.textContent = "❌ " + data.message;
+          mensaje.style.color = "red";
+        }
+      } catch {
+        mensaje.textContent = "❌ Error del servidor";
+        mensaje.style.color = "red";
+      }
+    });
+
+    window.onload = async () => {
+      await cargarInstructores();
+      await cargarCurso();
+    };
+  </script>
+</body>
+</html>

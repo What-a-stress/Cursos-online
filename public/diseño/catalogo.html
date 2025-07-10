@@ -1,163 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalogo</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Catálogo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/estilos/style.css">
 </head>
+
 <body>
-    <div class="container">
-        <div class="info">
-            <p class="txt-1">CATALOGO DE CURSOS ONLINE</p>
-        </div>
-    </div>
+  <div class="container">
+    <p class="txt-1">CATÁLOGO DE CURSOS ONLINE</p>
+  </div>
 
-    <form action="form">
-        <center>
-        <input type="text" class="box" placeholder="Buscar cursos" name="search" required>
-        <button class="button">Buscar</button>
-        </center>
-    </form>
+  <!-- Navegación común -->
+  <nav>
+    <button onclick="location.href='instructores.html'">Instructores</button>
+    <button onclick="location.href='iniciarSesion.html'">Iniciar Sesión</button>
+    <button onclick="location.href='crearCuenta.html'">Crear Cuenta</button>
+    <button onclick="location.href='catalogo.html'">Mostrar todo</button>
+  </nav>
 
-    <table class="styled-table">
-        <thead>
-            <tr>
-                <th>Titulo</th>
-                <th>Instructor</th>
-                <th>Precio</th>
-                <th>Rating</th>
-            </tr>
-            <tbody>
-            <tr>
-                <td>1</td>
-                <td>Instructor A</td>
-                <td>$100</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Instructor B</td>
-                <td>$150</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Instructor C</td>
-                <td>$200</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Instructor D</td>
-                <td>$250</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>Instructor E</td>
-                <td>$300</td>
-                <td></td>
-            </tr>
-            </tbody>
-        </thead>
-    </table>
- 
-    <form action="form">
-        <center>
-        <button class="button">Cargar Mas Cursos</button>
-        </center>
-    </form>
+  <!-- Buscar cursos -->
+  <form id="formBuscar">
+    <center>
+      <input type="text" id="buscarInput" class="box" placeholder="Buscar cursos" name="search" required>
+      <button type="submit" class="button">Buscar</button>
+    </center>
+  </form>
 
-    <style>
-        html {
-        background-color: #fcf9f9;
-        }
+  <!-- Botón para agregar nuevo curso -->
+  <div style="text-align: center; margin: 20px;">
+    <button class="btn" onclick="agregarCurso()">➕ Agregar Curso</button>
+  </div>
 
-        body {
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            margin: 0 auto;
-            padding: 20px;
-            width: 600px;
-            background-color: #3bd4e9;
-            border: 5px solid #000000;
-        }
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Cursos</th>
+        <th>Categoría</th>
+        <th>Instructor</th>
+        <th>Precio</th>
+        <th>Rating</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="tablaCursos">
+      <!-- Cursos cargados dinámicamente -->
+    </tbody>
+  </table>
 
-        h1 {
-            color: #080808;
-        }
+  <script>
+    const tabla = document.getElementById('tablaCursos');
+    const formBuscar = document.getElementById('formBuscar');
+    const inputBuscar = document.getElementById('buscarInput');
 
-        p {
-            color: #000000;
-        }
+    let cursos = []; // Guardar todos los cursos
 
-        .container {
-            text-align: center;
-            margin-bottom: 10px;
-            margin-top: 10px;
-            font-size: 30px;
-            color: #3579e6;
-        }
+    // Función para cargar todos los cursos desde la API
+    async function cargarCursos() {
+      try {
+        const res = await fetch('http://localhost:3000/api/v1/cursos');
+        const data = await res.json();
+        cursos = Array.isArray(data.data) ? data.data : [];
+        renderizarCursos(cursos);
+      } catch (error) {
+        console.error('Error al cargar cursos:', error);
+        tabla.innerHTML = '<tr><td colspan="5">Error al cargar los cursos</td></tr>';
+      }
+    }
 
-        .form-group {
-            margin-bottom: 15x;
-            font-size: 15px;
-        }
+    // Mostrar cursos en la tabla
+    function renderizarCursos(lista) {
+      if (lista.length === 0) {
+        tabla.innerHTML = '<tr><td colspan="5">No se encontraron cursos.</td></tr>';
+        return;
+      }
 
-        .box {
-            width: 50%;
-            padding: 20px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+      tabla.innerHTML = lista.map(curso => `
+  <tr>
+    <td>${curso.titulo}</td>
+    <td>${curso.categorias?.nombre || 'Sin categoría'}</td>
+    <td>${curso.instructores?.usuarios?.nombre || 'Sin instructor'}</td>
+    <td>$${curso.precio}</td>
+    <td>${curso.instructores?.rating || '-'}</td>
+    <td>
+      <button class="btn" onclick="editarCurso('${curso.id}')">✏️ Editar</button>
+      <button class="btn" onclick="eliminarCurso('${curso.id}')">🗑️ Eliminar</button>
+    </td>
+  </tr>
+`).join('');
+    }
 
-        .box:hover {
-            outline: 2px solid #7c7f86;
-        }
+    // Buscar cursos por título
+    formBuscar.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const texto = inputBuscar.value.toLowerCase();
+      const filtrados = cursos.filter(curso => curso.titulo.toLowerCase().includes(texto));
+      renderizarCursos(filtrados);
+    });
 
-        .button {
-            padding: 20px;
-            background-color: #3579e6;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        .button:hover {
-            outline: 2px solid #104ce6;
-        }
+    // Función para agregar un curso (por ahora solo redirige)
+    function agregarCurso() {
+      window.location.href = "agregarCurso.html"; // Debes crear esta página si aún no existe
+    }
 
-        .styled-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-            font-size: 1em;
-            font-family: Arial, Helvetica, sans-serif;
-            box-shadow: #000000 0px 0px 20px 0px;
-        }
+    // Función para editar curso (por ahora solo muestra ID en consola)
+    function editarCurso(id) {
+      window.location.href = `editarCurso.html?id=${id}`;
+    }
 
-        .styled-table thead tr {
-            background-color: #2874ef;
-            color: #ffffff;
-            text-align: middle;
-            
+    // Función para eliminar curso
+    async function eliminarCurso(id) {
+      if (!confirm("¿Estás seguro de que deseas eliminar este curso?")) return;
+
+      try {
+        const res = await fetch(`http://localhost:3000/api/v1/cursos/${id}`, {
+          method: 'DELETE'
+        });
+        const data = await res.json();
+        if (res.ok) {
+          alert("✅ Curso eliminado.");
+          await cargarCursos(); //Vuelve a cargar desde la BD actualizada
+
+        } else {
+          alert("❌ Error al eliminar: " + data.message);
         }
-        .styled-table th, .styled-table td {
-            padding: 12px 15px;
-            text-align: center;
-        }
-        .styled-table tbody tr {
-            border-bottom: 1px solid #dddddd;
-        }
-        .styled-table tbody tr:nth-of-type(even) {
-            background-color: #ffffff;
-        }
-        .styled-table tbody tr:last-of-type {
-            border-bottom: 2px solid #ffffff;
-        }
-    </style>
-    
+      } catch (error) {
+        console.error("❌ Error al eliminar:", error);
+        alert("❌ Error al eliminar el curso.");
+      }
+    }
+
+    window.onload = cargarCursos;
+  </script>
 </body>
+
 </html>

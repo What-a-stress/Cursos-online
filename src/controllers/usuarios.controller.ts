@@ -3,6 +3,11 @@ import * as usuariosService from "../services/usuarios.service"; // Asume que ex
 import { ResponseModel } from "../shared/responseModel";
 import { STATUS_BAD_REQUEST, STATUS_INTERNAL_SERVER_ERROR } from "../shared/constants";
 import { usuarioCrearSchema } from "../schemas/usuariosSchema"; // Asume que existe un archivo usuarioSchema.ts
+import { PrismaClient } from '@prisma/client';
+
+
+const prisma = new PrismaClient(); 
+
 
 export const listarUsuarios = async (req: Request, res: Response): Promise<any> => {
     console.log('usuariosController::listarUsuarios');
@@ -65,3 +70,39 @@ export const eliminarUsuario = async (req: Request, res: Response): Promise<any>
         res.status(STATUS_INTERNAL_SERVER_ERROR).json(ResponseModel.error(error.message));
     }
 }
+
+
+
+
+
+export const loginUsuario = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const { email, password } = req.body;
+
+    const usuario = await prisma.usuarios.findUnique({
+      where: { email }
+    });
+
+    if (!usuario) {
+      return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
+    }
+
+    if (usuario.password !== password) {
+      return res.status(401).json({ success: false, message: 'Contraseña incorrecta' });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Inicio de sesión exitoso',
+      usuario: {
+        id: usuario.id,
+        nombre: usuario.nombre,
+        email: usuario.email
+      }
+    });
+  } catch (error) {
+    console.error('Error en login:', error);
+    return res.status(500).json({ success: false, message: 'Error del servidor' });
+  }
+};
+

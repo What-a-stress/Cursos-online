@@ -1,0 +1,182 @@
+/* para todo el fondo*/
+html {
+  background-color: #cbcae6;
+}
+
+/* las letras */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* LOS CONTENEDORES*/
+.container {
+  text-align: center;
+  margin: 10px 0;
+  font-size: 30px;
+  color: #3579e6;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  font-size: 15px;
+}
+
+.box {
+  width: 50%;
+  padding: 20px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.box:hover {
+  outline: 2px solid #7c7f86;
+}
+
+/* ESTILO DE LOS BOTONES */
+.btn, .button, button[type="submit"] {
+  padding: 15px 25px;
+  background-color: #3579e6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.btn:hover,
+.button:hover,
+button[type="submit"]:hover {
+  background-color: #104ce6;
+}
+
+/* el diseño para el LOGIN Y CREAR CUENTA */
+.login-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  margin-top: 60px;
+}
+
+.login-container h1 {
+  text-align: center;
+  color: #333;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* para los mensajes */
+#mensaje, .error-message, .success-message {
+  text-align: center;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.success-message {
+  color: green;
+  margin-bottom: 10px;
+}
+
+/* para la tabla CURSOS*/
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 1em;
+  font-family: Arial, Helvetica, sans-serif;
+  box-shadow: #000000 0px 0px 20px 0px;
+}
+
+.styled-table thead tr {
+  background-color: #2874ef;
+  color: #ffffff;
+}
+
+.styled-table th, .styled-table td {
+  padding: 12px 15px;
+  text-align: center;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #ffffff;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #ffffff;
+}
+
+/* la navegación entre las páginas*/
+nav {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+nav button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+nav button:hover {
+  background-color: #0056b3;
+}
+
+/*esto es para que las iamgenes se vean en circulo*/
+.imag-center {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.imag-center img {
+  border-radius: 5px;
+  border: 2px solid #ffffff;
+}
+
+/* para que el diseño sea responsivo*/
+@media (max-width: 480px) {
+  .login-container {
+    width: 90%;
+  }
+}

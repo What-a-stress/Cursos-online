@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import * as cursosService from "../services/cursos.service"; // Asume que existe un archivo cursosService.ts
+import * as cursosService from "../services/cursos.service"; 
 import { ResponseModel } from "../shared/responseModel";
 import { STATUS_BAD_REQUEST, STATUS_INTERNAL_SERVER_ERROR } from "../shared/constants";
-import { cursoCrearSchema } from "../schemas/cursosSchema"; // Asume que existe un archivo cursoSchema.ts
+import { cursoCrearSchema } from "../schemas/cursosSchema"; 
 
 export const listarCursos = async (req: Request, res: Response): Promise<any> => {
     console.log('cursosController::listarCursos');
