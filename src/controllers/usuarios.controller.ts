@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import * as usuariosService from "../services/usuarios.service"; // Asume que existe un archivo usuariosService.ts
+import * as usuariosService from "../services/usuarios.service"; 
 import { ResponseModel } from "../shared/responseModel";
 import { STATUS_BAD_REQUEST, STATUS_INTERNAL_SERVER_ERROR } from "../shared/constants";
-import { usuarioCrearSchema } from "../schemas/usuariosSchema"; // Asume que existe un archivo usuarioSchema.ts
+import { usuarioCrearSchema } from "../schemas/usuariosSchema"; 
 import { PrismaClient } from '@prisma/client';
 
 
@@ -10,15 +10,16 @@ const prisma = new PrismaClient();
 
 
 export const listarUsuarios = async (req: Request, res: Response): Promise<any> => {
-    console.log('usuariosController::listarUsuarios');
-    try {
-        const response = await usuariosService.listarUsuarios();
-        res.json(ResponseModel.success(response));
-    } catch (error: any) {
-        console.error(error.message);
-        res.status(STATUS_INTERNAL_SERVER_ERROR).json(ResponseModel.error(error.message));
-    }
+  console.log('usuariosController::listarUsuarios');
+  try {
+    const response = await usuariosService.listarUsuarios(); // aquí lo estoy mapeando
+    res.json(ResponseModel.success(response));
+  } catch (error: any) {
+    console.error(error.message);
+    res.status(STATUS_INTERNAL_SERVER_ERROR).json(ResponseModel.error(error.message));
+  }
 }
+
 
 export const obtenerUsuario = async (req: Request, res: Response): Promise<any> => {
     console.log('usuariosController::obtenerUsuario');
@@ -73,7 +74,7 @@ export const eliminarUsuario = async (req: Request, res: Response): Promise<any>
 
 
 
-
+//aquí puse la lógica para el login, no hay nada en el service
 
 export const loginUsuario = async (req: Request, res: Response): Promise<any> => {
   try {
@@ -105,4 +106,3 @@ export const loginUsuario = async (req: Request, res: Response): Promise<any> =>
     return res.status(500).json({ success: false, message: 'Error del servidor' });
   }
 };
-

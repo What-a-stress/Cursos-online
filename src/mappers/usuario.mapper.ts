@@ -16,6 +16,8 @@ export const fromPrismaUsuario = (usuario: usuarios) => {
   };
 };
 
+//SOLO ESTOY USANDO ESTE MAPPER PARA LISTAR USUARIOS
+
 export const toPrismaUsuario = (usuario: Usuario) => {
   return {
     nombre: usuario.nombre,

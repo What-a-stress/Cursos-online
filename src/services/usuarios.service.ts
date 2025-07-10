@@ -1,22 +1,25 @@
 import { PrismaClient } from "@prisma/client";
 import { Usuario } from "../models/usuario"; 
+import { fromPrismaUsuario } from "../mappers/usuario.mapper";
 import { RESPONSE_DELETE_OK, RESPONSE_INSERT_OK, RESPONSE_UPDATE_OK } from "../shared/constants";
+
 
 const prisma = new PrismaClient();
 
 
-
-
 export const listarUsuarios = async () => {
-    console.log('usuariosService::listarUsuarios');
-    return await prisma.usuarios.findMany({
-        where: {
-            estado_auditoria: '1' 
-        },
-        orderBy: {
-            id: 'asc' 
-        }
-    });
+  console.log("usuariosService::listarUsuarios");
+
+  const usuarios = await prisma.usuarios.findMany({
+    where: {
+      estado_auditoria: "1",
+    },
+    orderBy: {
+      id: "asc",
+    },
+  });
+
+  return usuarios.map(fromPrismaUsuario);
 }
 
 
