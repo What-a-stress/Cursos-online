@@ -60,6 +60,8 @@ export const modificarUsuario = async (req: Request, res: Response): Promise<any
     }
 }
 
+
+
 export const eliminarUsuario = async (req: Request, res: Response): Promise<any> => {
     console.log('usuariosController::eliminarUsuario');
     try {

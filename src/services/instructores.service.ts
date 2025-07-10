@@ -45,7 +45,6 @@ export const insertarInstructor = async (instructor: Instructor) => {
             especialidad: instructor.especialidad,
             rating: instructor.rating,
             estado_auditoria: instructor.estado_auditoria
-            // fecha_creacion se establece automáticamente por defecto en la BD
         }
     });
     return RESPONSE_INSERT_OK;
@@ -60,13 +59,8 @@ export const modificarInstructor = async (id: number, instructor: Instructor) =>
             id: id
         },
         data: {
-            usuario_id: instructor.usuario_id,
-            biografia: instructor.biografia,
-            foto_url: instructor.foto_url,
-            especialidad: instructor.especialidad,
-            rating: instructor.rating,
-            estado_auditoria: instructor.estado_auditoria
-
+            ...instructor,
+            fecha_actualizacion: new Date() 
         }
     });
     return RESPONSE_UPDATE_OK;
@@ -81,7 +75,8 @@ export const eliminarInstructor = async (id: number) => {
             id: id
         },
         data: {
-            estado_auditoria: '0'
+            estado_auditoria: '0',
+            fecha_actualizacion: new Date()
         }
     });
     return RESPONSE_DELETE_OK;

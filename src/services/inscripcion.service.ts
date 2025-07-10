@@ -53,10 +53,7 @@ export const insertarInscripcion = async (inscripcion: Inscripcion) => {
 
 
 
-export const modificarInscripcion = async (
-  id: number,
-  inscripcion: Inscripcion
-) => {
+export const modificarInscripcion = async ( id: number, inscripcion: Inscripcion ) => {
   console.log("inscripcionesService::modificarInscripcion");
 
   await prisma.inscripciones.update({
@@ -64,11 +61,7 @@ export const modificarInscripcion = async (
       id: id
     },
     data: {
-      usuario_id: inscripcion.usuario_id,
-      curso_id: inscripcion.curso_id,
-      progreso: inscripcion.progreso,
-      completado: inscripcion.completado,
-      estado_auditoria: inscripcion.estado_auditoria,
+     ...inscripcion,
       fecha_actualizacion: new Date()
     }
   });

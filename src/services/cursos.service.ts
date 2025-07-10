@@ -60,15 +60,8 @@ export const modificarCurso = async (id: number, curso: Curso) => {
             id: id
         },
         data: {
-            titulo: curso.titulo,
-            descripcion: curso.descripcion,
-            precio: curso.precio,
-            categoria_id: curso.categoria_id,
-            instructor_id: curso.instructor_id,
-            duracion_horas: curso.duracion_horas,
-            nivel: curso.nivel,
-            activo: curso.activo,
-            estado_auditoria: curso.estado_auditoria
+            ...curso,
+            fecha_actualizacion: new Date()
         }
     });
     return RESPONSE_UPDATE_OK;
@@ -81,7 +74,8 @@ export const eliminarCurso = async (id: number) => {
             id: id
         },
         data: {
-            estado_auditoria: '0'
+            estado_auditoria: '0',
+            fecha_actualizacion: new Date()      
         }
     });
     return RESPONSE_DELETE_OK;

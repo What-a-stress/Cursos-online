@@ -45,7 +45,6 @@ export const insertarUsuario = async (usuario: Usuario) => {
             email: usuario.email,
             password: usuario.password,
             rol: usuario.rol, // Campo opcional
-            // fecha_registro se establece automáticamente por defecto en la BD
             activo: usuario.activo, // Campo opcional
             estado_auditoria: usuario.estado_auditoria // Campo opcional
         
@@ -63,12 +62,8 @@ export const modificarUsuario = async (id: number, usuario: Usuario) => {
             id: id 
         },
         data: {
-            nombre: usuario.nombre,
-            email: usuario.email,
-            password: usuario.password,
-            rol: usuario.rol,
-            activo: usuario.activo,
-            estado_auditoria: usuario.estado_auditoria
+            ...usuario,
+            fecha_actualizacion: new Date()
         }
     });
     return RESPONSE_UPDATE_OK;
@@ -84,7 +79,8 @@ export const eliminarUsuario = async (id: number) => {
             id: id 
         },
         data: {
-            estado_auditoria: '0' 
+            estado_auditoria: '0', 
+            fecha_actualizacion: new Date()
         }
     });
     return RESPONSE_DELETE_OK;
