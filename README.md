@@ -14,6 +14,14 @@ Visualización de catálogo de cursos
 
 Relación con categorías y validaciones de datos
 
+Descripción opcional para cursos
+
+Integración de imágenes (foto_url) para instructores
+
+Validaciones de frontend (HTML + JS) para formularios
+
+Documentación de API con Swagger
+
 
 ## Tecnologías utilizadas 
 
@@ -23,4 +31,4 @@ Backend: Node.js, Express, Prisma ORM
 
 Base de datos: PostgreSQL
 
-Herramientas: Postman, DBeaver
+Herramientas: Postman, DBeaver, Swagger, TypeScript
