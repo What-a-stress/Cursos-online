@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build && node dist/server.js",
-"build": "node --no-warnings ./node_modules/typescript/bin/tsc",
+    "build": "node --no-warnings ./node_modules/typescript/bin/tsc",
     "dev": "ts-node-dev --respawn --clear src/server.ts"
   },
   "keywords": [],
@@ -20,7 +20,7 @@
     "prisma": "^6.10.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3"
-  },
+  }, 
   "dependencies": {
     "@prisma/client": "^6.10.1",
     "@types/swagger-jsdoc": "^6.0.4",
