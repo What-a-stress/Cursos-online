@@ -20,7 +20,7 @@ Integración de imágenes (foto_url) para instructores
 
 Validaciones de frontend (HTML + JS) para formularios
 
-Documentación de API con Swagger
+Documentación Swagger para todas las rutas en /api-docs
 
 
 ## Tecnologías utilizadas 
@@ -32,3 +32,5 @@ Backend: Node.js, Express, Prisma ORM
 Base de datos: PostgreSQL
 
 Herramientas: Postman, DBeaver, Swagger, TypeScript
+
+Railway para despliegue
