@@ -9,16 +9,14 @@ import {
 
 const router: Router = express.Router();
 
-
-
-router.get('/', listarCategorias); 
-
 /**
 *@swagger
 * tags:
 *  - name: Categorias
 *    description: API para gestionar categorías
 */
+
+router.get('/', listarCategorias); 
 
 /**
 *@swagger
