@@ -6,7 +6,7 @@
   "scripts": {
   "test": "echo \"Error: no test specified\" && exit 1",
   "start": "npm run build && node dist/server.js",
-  "build": "npx tsc",
+  "build": "./node_modules/.bin/tsc",
   "dev": "ts-node-dev --respawn --clear src/server.ts"
 },
   "keywords": [],
