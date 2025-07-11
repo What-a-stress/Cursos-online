@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run build && node dist/server.js",
-    "build": "tsc",
-    "dev": "ts-node-dev --respawn --clear src/server.ts"
-  },
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "start": "npm run build && node dist/server.js",
+  "build": "npx tsc",
+  "dev": "ts-node-dev --respawn --clear src/server.ts"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
