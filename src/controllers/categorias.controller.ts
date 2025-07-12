@@ -5,9 +5,6 @@ import { STATUS_INTERNAL_SERVER_ERROR,STATUS_BAD_REQUEST } from '../shared/const
 import { categoriaCrearSchema } from "../schemas/categoriaSchema";
 
 
-
-
-
 export const listarCategorias = async (req: Request, res: Response) => {
     console.log('categorias.controller::listarCategorias');
     
