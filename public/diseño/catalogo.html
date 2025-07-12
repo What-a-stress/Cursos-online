@@ -99,13 +99,13 @@
       const filtrados = cursos.filter(curso => curso.titulo.toLowerCase().includes(texto));
       renderizarCursos(filtrados);
     });
-
-    // Función para agregar un curso (por ahora solo redirige)
+ 
+    //para agregar
     function agregarCurso() {
-      window.location.href = "agregarCurso.html"; // Debes crear esta página si aún no existe
+      window.location.href = "agregarCurso.html";
     }
 
-    // Función para editar curso (por ahora solo muestra ID en consola)
+    // Función para editar curso 
     function editarCurso(id) {
       window.location.href = `editarCurso.html?id=${id}`;
     }

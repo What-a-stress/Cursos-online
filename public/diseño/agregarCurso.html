@@ -95,7 +95,7 @@
       const instructor_id = parseInt(form.instructor_id.value);
       const categoria_id = parseInt(form.categoria_id.value);
 
-      // Validación de título: mínimo 5 letras, sin números ni símbolos
+      // Validación de título
       const regexTitulo = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{5,}$/;
 
       if (!regexTitulo.test(titulo)) {

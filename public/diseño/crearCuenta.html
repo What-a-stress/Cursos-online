@@ -60,7 +60,7 @@
       const password = form.password.value;
       const rol = form.rol.value;
 
-      // Validación: solo letras y espacios (sin números ni símbolos)
+      // Validación: solo letras y espacios
       const nombreValido = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
       if (!nombreValido.test(nombre)) {
         errorMsg.textContent = "El nombre no debe contener números ni símbolos.";
