@@ -32,5 +32,3 @@ Backend: Node.js, Express, Prisma ORM
 Base de datos: PostgreSQL
 
 Herramientas: Postman, DBeaver, Swagger, TypeScript
-
-Railway para despliegue
