@@ -6,6 +6,9 @@ import {
     modificarInscripcion,
     eliminarInscripcion
 } from '../controllers/inscripcion.controller';
+import { authMiddleware } from '../auth/auth.middleware';
+
+
 
 /**
  * @swagger
@@ -16,7 +19,7 @@ import {
 
 const router: Router = express.Router();
 
-router.get('/', listarInscripciones);
+router.get('/', authMiddleware,listarInscripciones);
 
 /**
  * @swagger
@@ -33,7 +36,7 @@ router.get('/', listarInscripciones);
  *         description: Error interno del servidor
  */
 
-router.get('/:id', obtenerInscripcion);
+router.get('/:id', authMiddleware,obtenerInscripcion);
 
 /**
  * @swagger
@@ -59,7 +62,7 @@ router.get('/:id', obtenerInscripcion);
  *         description: Error interno del servidor
  */
 
-router.post('/', insertarInscripcion);
+router.post('/',authMiddleware, insertarInscripcion);
 
 /**
  * @swagger
@@ -93,7 +96,7 @@ router.post('/', insertarInscripcion);
  *         description: Error interno del servidor
  */
 
-router.put('/:id', modificarInscripcion);
+router.put('/:id',authMiddleware, modificarInscripcion);
 
 /**
  * @swagger
@@ -136,7 +139,7 @@ router.put('/:id', modificarInscripcion);
  *         description: Error interno del servidor
  */
 
-router.delete('/:id', eliminarInscripcion);
+router.delete('/:id',authMiddleware, eliminarInscripcion);
 
 /**
  * @swagger

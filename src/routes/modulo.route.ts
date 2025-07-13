@@ -5,6 +5,8 @@ import {
     listarModulos, 
     modificarModulo,
     obtenerModulo } from '../controllers/modulos.controller';
+import { authMiddleware } from '../auth/auth.middleware';
+
 
 /**
  * @swagger
@@ -15,7 +17,7 @@ import {
 
 const router: Router = express.Router();
 
-router.get('/', listarModulos);         
+router.get('/',authMiddleware, listarModulos);         
 
 /**
  * @swagger
@@ -34,7 +36,7 @@ router.get('/', listarModulos);
  *         description: Error interno del servidor
  */
 
-router.get('/:id', obtenerModulo);    
+router.get('/:id',authMiddleware, obtenerModulo);    
 
 /**
  * @swagger
@@ -60,7 +62,7 @@ router.get('/:id', obtenerModulo);
  *         description: Error interno del servidor
  */
 
-router.post('/', insertarModulo);    
+router.post('/',authMiddleware, insertarModulo);    
 
 /**
  * @swagger
@@ -94,7 +96,7 @@ router.post('/', insertarModulo);
  *         description: Error interno del servidor
  */
 
-router.put('/:id', modificarModulo);    
+router.put('/:id', authMiddleware, modificarModulo);    
 
 /**
  * @swagger
@@ -135,7 +137,7 @@ router.put('/:id', modificarModulo);
  *         description: Error interno del servidor
  */
 
-router.delete('/:id', eliminarModulo);   
+router.delete('/:id',authMiddleware, eliminarModulo);   
 
 /**
  * @swagger

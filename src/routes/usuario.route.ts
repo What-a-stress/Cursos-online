@@ -7,6 +7,7 @@ import {
   eliminarUsuario,
   loginUsuario
 } from '../controllers/usuarios.controller';
+import { authMiddleware } from '../auth/auth.middleware';
 
 /**
  * @swagger
@@ -17,7 +18,7 @@ import {
 
 const router: Router = Router();
 
-router.get('/', listarUsuarios);
+router.get('/', authMiddleware, listarUsuarios);
 
 /**
  * @swagger
@@ -36,7 +37,7 @@ router.get('/', listarUsuarios);
  *         description: Error interno del servidor
  */
 
-router.get('/:id', obtenerUsuario);
+router.get('/:id', authMiddleware, obtenerUsuario);
 
 
 /**
@@ -63,7 +64,7 @@ router.get('/:id', obtenerUsuario);
  *         description: Error interno del servidor
  */
 
-router.post('/', insertarUsuario);
+router.post('/', authMiddleware, insertarUsuario);
 
 /**
  * @swagger
@@ -100,7 +101,7 @@ router.post('/', insertarUsuario);
  *         description: Error interno del servidor
  */
 
-router.put('/:id', modificarUsuario);
+router.put('/:id', authMiddleware, modificarUsuario);
 
 /**
  * @swagger
@@ -143,7 +144,7 @@ router.put('/:id', modificarUsuario);
  *         description: Error interno del servidor
  */
 
-router.delete('/:id', eliminarUsuario);
+router.delete('/:id', authMiddleware, eliminarUsuario);
 
 /**
  * @swagger

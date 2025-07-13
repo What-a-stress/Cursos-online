@@ -6,6 +6,8 @@ import {
     modificarCategoria,
     eliminarCategoria
 } from '../controllers/categorias.controller';
+import { authMiddleware } from '../auth/auth.middleware';
+
 
 const router: Router = express.Router();
 
@@ -16,7 +18,7 @@ const router: Router = express.Router();
 *    description: API para gestionar categorías
 */
 
-router.get('/', listarCategorias); 
+router.get('/', authMiddleware, listarCategorias); 
 
 /**
 *@swagger
@@ -37,7 +39,7 @@ router.get('/', listarCategorias);
 */
 
 
-router.get('/:id', obtenerCategoria); 
+router.get('/:id', authMiddleware, obtenerCategoria); 
 
 /** 
  * @swagger
@@ -63,7 +65,7 @@ router.get('/:id', obtenerCategoria);
 *        description: Error interno del servidor
 */
 
-router.post('/', insertarCategoria); 
+router.post('/', authMiddleware, insertarCategoria); 
 
 /** 
  * @swagger
@@ -96,7 +98,7 @@ router.post('/', insertarCategoria);
 */
 
 
-router.put('/:id', modificarCategoria);
+router.put('/:id', authMiddleware, modificarCategoria);
 
 /**
  * @swagger
@@ -135,7 +137,7 @@ router.put('/:id', modificarCategoria);
  *         description: Error interno del servidor
  */
 
-router.delete('/:id', eliminarCategoria);
+router.delete('/:id',authMiddleware, eliminarCategoria);
 
 /**
  * @swagger

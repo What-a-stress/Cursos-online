@@ -6,6 +6,8 @@ import {
     modificarCurso,
     obtenerCurso
 } from "../controllers/cursos.controller";
+import { authMiddleware } from '../auth/auth.middleware';
+
 
 const router: Router = express.Router();
 
@@ -17,7 +19,7 @@ const router: Router = express.Router();
  */
 
 
-router.get('/', listarCursos);
+router.get('/',authMiddleware,listarCursos);
 
 /**
  * @swagger
@@ -36,7 +38,7 @@ router.get('/', listarCursos);
  *         description: Error interno del servidor
  */
 
-router.get('/:id', obtenerCurso);
+router.get('/:id',authMiddleware, obtenerCurso);
 
 /**
  * @swagger
@@ -64,7 +66,7 @@ router.get('/:id', obtenerCurso);
  *         description: Error interno del servidor
  */
 
-router.post('/', insertarCurso);
+router.post('/',authMiddleware, insertarCurso);
 
 /**
  * @swagger
@@ -104,7 +106,7 @@ router.post('/', insertarCurso);
  *         description: Error interno del servidor
  */
 
-router.put('/:id', modificarCurso);
+router.put('/:id',authMiddleware, modificarCurso);
 
 /**
  * @swagger
@@ -153,7 +155,7 @@ router.put('/:id', modificarCurso);
  *         description: Error interno del servidor
  */
 
-router.delete('/:id', eliminarCurso);
+router.delete('/:id',authMiddleware, eliminarCurso);
 
 /**
  * @swagger

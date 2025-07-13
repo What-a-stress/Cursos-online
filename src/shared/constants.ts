@@ -1,3 +1,4 @@
+import { Response } from 'express';
 export const STATUS_OK = 200;
 export const STATUS_CREATED = 201;
 export const STATUS_NO_CONTENT= 204;
@@ -10,6 +11,7 @@ export const STATUS_INTERNAL_SERVER_ERROR = 500;
 export const RESPONSE_INSERT_OK = 'Insertado satisfactoriamente';
 export const RESPONSE_UPDATE_OK = 'Modificado satisfactoriamente';
 export const RESPONSE_DELETE_OK = 'Eliminado satisfactoriamente';
+export const RESPONSE_CREDENTIALS_ERROR = 'Credenciales incorrectas';
 
 
 // ESTO ES ESTANDARIZACIÓN (BUENAS PRÁCTICAS)

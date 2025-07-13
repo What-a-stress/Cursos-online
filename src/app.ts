@@ -10,6 +10,7 @@ import inscripcionesRoute from './routes/inscripcion.route';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './docs/swagger';
 import env from './config/env';
+import authRouter from './routes/auth.route';
 
 
 /* 
@@ -35,6 +36,7 @@ app.use(`${env.API_PREFIX}/cursos`, cursosRoute);
 app.use(`${env.API_PREFIX}/instructores`, instructoresRoute);
 app.use(`${env.API_PREFIX}/modulos`, modulosRoute);
 app.use(`${env.API_PREFIX}/inscripciones`, inscripcionesRoute);
+app.use(`${env.API_PREFIX}/auth`, authRouter);
 
 
 export default app;
