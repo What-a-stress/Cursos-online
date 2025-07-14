@@ -70,14 +70,27 @@ router.post('/', auth_middleware_1.authMiddleware, cursos_controller_1.insertarC
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/CursoCrear'
+ *             type: object
+ *             properties:
+ *               titulo:
+ *                 type: string
+ *               descripcion:
+ *                 type: string
+ *               precio:
+ *                 type: number
+ *               categoria_id:
+ *                 type: integer
+ *               instructor_id:
+ *                 type: integer
+ *               duracion_horas:
+ *                 type: integer
+ *               nivel:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Curso creado exitosamente
  *       400:
  *         description: Datos inválidos
- *       401:
- *         description: No autorizado
  *       500:
  *         description: Error interno del servidor
  */
@@ -102,14 +115,27 @@ router.put('/:id', auth_middleware_1.authMiddleware, cursos_controller_1.modific
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/CursoEditar'
+ *             type: object
+ *             properties:
+ *               titulo:
+ *                 type: string
+ *               descripcion:
+ *                 type: string
+ *               precio:
+ *                 type: number
+ *               categoria_id:
+ *                 type: integer
+ *               instructor_id:
+ *                 type: integer
+ *               duracion_horas:
+ *                 type: integer
+ *               nivel:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Curso actualizado correctamente
  *       400:
  *         description: Datos inválidos
- *       401:
- *         description: No autorizado
  *       404:
  *         description: Curso no encontrado
  *       500:

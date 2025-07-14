@@ -69,29 +69,15 @@ router.post('/', auth_middleware_1.authMiddleware, modulos_controller_1.insertar
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - curso_id
- *               - titulo
- *               - descripcion
- *               - orden
- *               - estado_auditoria
  *             properties:
  *               curso_id:
  *                 type: integer
- *                 example: 1
  *               titulo:
  *                 type: string
- *                 example: Introducción al curso
  *               descripcion:
  *                 type: string
- *                 example: En este módulo se abordan los fundamentos.
  *               orden:
  *                 type: integer
- *                 example: 1
- *               estado_auditoria:
- *                 type: string
- *                 maxLength: 1
- *                 example: A
  *     responses:
  *       201:
  *         description: Módulo creado exitosamente
@@ -122,29 +108,13 @@ router.put('/:id', auth_middleware_1.authMiddleware, modulos_controller_1.modifi
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - curso_id
- *               - titulo
- *               - descripcion
- *               - orden
- *               - estado_auditoria
  *             properties:
- *               curso_id:
- *                 type: integer
- *                 example: 2
  *               titulo:
  *                 type: string
- *                 example: Fundamentos técnicos
  *               descripcion:
  *                 type: string
- *                 example: Contenido avanzado del curso.
  *               orden:
  *                 type: integer
- *                 example: 2
- *               estado_auditoria:
- *                 type: string
- *                 maxLength: 1
- *                 example: M
  *     responses:
  *       200:
  *         description: Módulo modificado exitosamente

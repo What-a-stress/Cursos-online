@@ -90,10 +90,6 @@ const insertarModulo = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.insertarModulo = insertarModulo;
 const modificarModulo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('modulos.controller::modificarModulo');
-    const { error } = moduloSchema_1.moduloEditarSchema.validate(req.body);
-    if (error) {
-        return res.status(constants_1.STATUS_BAD_REQUEST).json(responseModel_1.ResponseModel.error(error.message));
-    }
     try {
         const { id } = req.params;
         const response = yield ModuloService.modificarModulo(Number(id), req.body);

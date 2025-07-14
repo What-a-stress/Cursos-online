@@ -53,7 +53,7 @@ const prisma = new client_1.PrismaClient();
 const listarUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('usuariosController::listarUsuarios');
     try {
-        const response = yield usuariosService.listarUsuarios();
+        const response = yield usuariosService.listarUsuarios(); // aquí lo estoy mapeando
         res.json(responseModel_1.ResponseModel.success(response));
     }
     catch (error) {
@@ -93,10 +93,6 @@ const insertarUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function
 exports.insertarUsuario = insertarUsuario;
 const modificarUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('usuariosController::modificarUsuario');
-    const { error } = usuariosSchema_1.usuarioEditarSchema.validate(req.body);
-    if (error) {
-        return res.status(constants_1.STATUS_BAD_REQUEST).json(responseModel_1.ResponseModel.error(error.message, constants_1.STATUS_BAD_REQUEST));
-    }
     try {
         const { id } = req.params;
         const response = yield usuariosService.modificarUsuario(Number(id), req.body);
@@ -121,8 +117,8 @@ const eliminarUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.eliminarUsuario = eliminarUsuario;
+//aquí puse la lógica para el login, no hay nada en el service
 const loginUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('usuariosController::loginUsuario');
     try {
         const { email, password } = req.body;
         const { token, usuario } = yield (0, auth_service_1.loginAuth)(email, password);

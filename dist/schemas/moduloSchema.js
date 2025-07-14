@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.moduloEditarSchema = exports.moduloCrearSchema = void 0;
+exports.moduloCrearSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
 exports.moduloCrearSchema = joi_1.default.object({
     curso_id: joi_1.default.number()
@@ -24,11 +24,10 @@ exports.moduloCrearSchema = joi_1.default.object({
         'any.required': 'El título es obligatorio.',
     }),
     descripcion: joi_1.default.string()
-        .required()
+        .allow(null, '')
+        .optional()
         .messages({
         'string.base': 'La descripción debe ser texto.',
-        'any.required': 'La descripción es obligatoria.',
-        'string.empty': 'La descripción es obligatoria.',
     }),
     orden: joi_1.default.number()
         .integer()
@@ -42,11 +41,9 @@ exports.moduloCrearSchema = joi_1.default.object({
     }),
     estado_auditoria: joi_1.default.string()
         .length(1)
-        .required()
+        .optional()
         .messages({
         'string.base': 'El estado de auditoría debe ser texto.',
         'string.length': 'El estado de auditoría debe tener 1 carácter.',
-        'any.required': 'El estado de auditoría es obligatorio.',
     }),
 });
-exports.moduloEditarSchema = exports.moduloCrearSchema;

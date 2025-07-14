@@ -71,7 +71,7 @@ router.post('/', auth_middleware_1.authMiddleware, instructores_controller_1.ins
  *             type: object
  *             properties:
  *               nombre:
- *                 type: string
+ *                type: string
  *               biografia:
  *                 type: string
  *               foto_url:
@@ -113,7 +113,7 @@ router.put('/:id', auth_middleware_1.authMiddleware, instructores_controller_1.m
  *             type: object
  *             properties:
  *               nombre:
- *                 type: string
+ *                type: string
  *               biografia:
  *                 type: string
  *               foto_url:
