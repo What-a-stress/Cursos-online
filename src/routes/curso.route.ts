@@ -85,9 +85,12 @@ router.post('/', authMiddleware, insertarCurso);
  *         description: Curso creado exitosamente
  *       400:
  *         description: Datos inválidos
+ *       401:
+ *         description: No autorizado
  *       500:
  *         description: Error interno del servidor
  */
+
 
 router.put('/:id', authMiddleware, modificarCurso);
 
@@ -117,6 +120,8 @@ router.put('/:id', authMiddleware, modificarCurso);
  *         description: Curso actualizado correctamente
  *       400:
  *         description: Datos inválidos
+ *       401:
+ *         description: No autorizado
  *       404:
  *         description: Curso no encontrado
  *       500:

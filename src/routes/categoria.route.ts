@@ -67,26 +67,32 @@ router.post('/', authMiddleware, insertarCategoria);
 /**
  * @swagger
  * /api/v1/categorias:
- *  post:
- *    summary: Crear una nueva categoría
- *    tags: [Categorias]
- *    security:
- *     - bearerAuth: []
- *    requestBody:
- *      required: true
- *      content:
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/CategoriaCrear'
- *    responses:
- *      201:
- *        description: Categoría creada exitosamente
- *      400:
- *        description: Solicitud incorrecta
- *      401:
- *        description: No autorizado
- *      500:
- *        description: Error interno del servidor
+ *   post:
+ *     summary: Crear una nueva categoría
+ *     tags: [Categorias]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - nombre
+ *               - descripcion
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *               descripcion:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Categoría creada exitosamente
+ *       400:
+ *         description: Datos inválidos
+ *       500:
+ *         description: Error interno del servidor
  */
 
 router.put('/:id', authMiddleware, modificarCategoria);
@@ -103,18 +109,26 @@ router.put('/:id', authMiddleware, modificarCategoria);
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID de la categoría a modificar
  *         schema:
  *           type: integer
+ *         description: ID de la categoría a modificar
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/CategoriaEditar'
+ *             type: object
+ *             required:
+ *               - nombre
+ *               - descripcion
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *               descripcion:
+ *                 type: string
  *     responses:
  *       200:
- *         description: Categoría modificada exitosamente
+ *         description: Categoría modificada correctamente
  *       400:
  *         description: Datos inválidos
  *       404:
