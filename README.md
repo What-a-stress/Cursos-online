@@ -29,3 +29,5 @@ Este proyecto es una plataforma web para gestionar cursos online, desarrollada c
 **Librerías**: Joi, Bcrypt, JWT, Swagger  
 **Herramientas**: Postman, DBeaver, Railway, TypeScript
 
+## URL del proyecto en internet 
+https://cursos-online-production.up.railway.app/api-docs/#/
