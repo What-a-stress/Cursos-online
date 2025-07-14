@@ -120,7 +120,7 @@ router.put('/:id', authMiddleware, modificarModulo);
  *           schema:
  *             type: object
  *             properties:
- *               categoria_id:
+ *               curso_id:
  *                 type: integer
  *               titulo:
  *                 type: string
