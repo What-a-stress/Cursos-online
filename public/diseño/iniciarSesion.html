@@ -24,7 +24,6 @@
 
   <!-- Navegación entre páginas -->
    <nav>
-    <button onclick="location.href='instructores.html'">Instructores</button>
     <button onclick="location.href='iniciarSesion.html'">Iniciar Sesión</button>
     <button onclick="location.href='crearCuenta.html'">Crear Cuenta</button>
   </nav>
@@ -34,36 +33,41 @@
     const mensaje = document.getElementById("mensaje");
 
     form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+  e.preventDefault();
 
-      const email = form.email.value;
-      const password = form.password.value;
+  const email = form.email.value;
+  const password = form.password.value;
 
-      try {
-        const response = await fetch("http://localhost:3000/api/v1/usuarios/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          mensaje.textContent = "Inicio de sesión exitoso. Bienvenid@ " + data.usuario.nombre;
-          mensaje.style.color = "green";
-          setTimeout(() => {
-            window.location.href = "catalogo.html";
-          }, 1500);
-        } else {
-          mensaje.textContent = "⚠️ " + data.message;
-          mensaje.style.color = "red";
-        }
-      } catch (error) {
-        mensaje.textContent = "Error al conectar con el servidor.";
-        mensaje.style.color = "red";
-        console.error(error);
-      }
+  try {
+    const response = await fetch("http://localhost:3000/api/v1/usuarios/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
     });
+
+    const data = await response.json();
+
+    if (response.ok && data.token) {
+      // ✅ Guardar el token y el usuario en localStorage
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("usuario", JSON.stringify(data.usuario));
+
+      mensaje.textContent = "Inicio de sesión exitoso. Bienvenid@ " + data.usuario.nombre;
+      mensaje.style.color = "green";
+
+      setTimeout(() => {
+        window.location.href = "catalogo.html";
+      }, 1500);
+    } else {
+      mensaje.textContent = "⚠️ " + (data.message || "Credenciales inválidas");
+      mensaje.style.color = "red";
+    }
+  } catch (error) {
+    mensaje.textContent = "Error al conectar con el servidor.";
+    mensaje.style.color = "red";
+    console.error(error);
+  }
+});
   </script>
 </body>
 </html>

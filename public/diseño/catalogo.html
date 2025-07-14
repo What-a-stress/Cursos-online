@@ -9,6 +9,19 @@
 </head>
 
 <body>
+
+<style>
+  body {
+    background-image: url("/image/fondo.jpg"); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+  </style>
+
   <div class="container">
     <p class="txt-1">CATÁLOGO DE CURSOS ONLINE</p>
   </div>
@@ -18,6 +31,7 @@
     <button onclick="location.href='instructores.html'">Instructores</button>
     <button onclick="location.href='iniciarSesion.html'">Iniciar Sesión</button>
     <button onclick="location.href='crearCuenta.html'">Crear Cuenta</button>
+    <button onclick="location.href='agregarInstructor.html'">Agregar Instructor</button>
     <button onclick="location.href='catalogo.html'">Mostrar todo</button>
   </nav>
 
@@ -41,7 +55,8 @@
         <th>Categoría</th>
         <th>Instructor</th>
         <th>Precio</th>
-        <th>Rating</th>
+        <th>Rating de Instructor</th>
+        <th>Nivel del Curso</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -59,16 +74,34 @@
 
     // Función para cargar todos los cursos desde la API
     async function cargarCursos() {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        alert("⚠️ No estás autenticado. Por favor, inicia sesión.");
+        window.location.href = "iniciarSesion.html";
+        return;
+      }
+
       try {
-        const res = await fetch('http://localhost:3000/api/v1/cursos');
+        const res = await fetch('http://localhost:3000/api/v1/cursos', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
         const data = await res.json();
+        if (!res.ok) throw new Error(data.message);
+
         cursos = Array.isArray(data.data) ? data.data : [];
         renderizarCursos(cursos);
       } catch (error) {
-        console.error('Error al cargar cursos:', error);
-        tabla.innerHTML = '<tr><td colspan="5">Error al cargar los cursos</td></tr>';
+        console.error('❌ Error al cargar cursos:', error);
+        alert("⚠️ Sesión expirada o token inválido. Vuelve a iniciar sesión.");
+        localStorage.clear();
+        window.location.href = "iniciarSesion.html";
       }
     }
+
 
     // Mostrar cursos en la tabla
     function renderizarCursos(lista) {
@@ -81,9 +114,10 @@
   <tr>
     <td>${curso.titulo}</td>
     <td>${curso.categorias?.nombre || 'Sin categoría'}</td>
-    <td>${curso.instructores?.usuarios?.nombre || 'Sin instructor'}</td>
+    <td>${curso.instructores?.nombre || 'Sin instructor'}</td>
     <td>$${curso.precio}</td>
     <td>${curso.instructores?.rating || '-'}</td>
+    <td>${curso.nivel || '-'}</td>
     <td>
       <button class="btn" onclick="editarCurso('${curso.id}')">✏️ Editar</button>
       <button class="btn" onclick="eliminarCurso('${curso.id}')">🗑️ Eliminar</button>
@@ -99,7 +133,7 @@
       const filtrados = cursos.filter(curso => curso.titulo.toLowerCase().includes(texto));
       renderizarCursos(filtrados);
     });
- 
+
     //para agregar
     function agregarCurso() {
       window.location.href = "agregarCurso.html";
@@ -112,25 +146,31 @@
 
     // Función para eliminar curso
     async function eliminarCurso(id) {
-      if (!confirm("¿Estás seguro de que deseas eliminar este curso?")) return;
+  if (!confirm("¿Estás seguro de que deseas eliminar este curso?")) return;
 
-      try {
-        const res = await fetch(`http://localhost:3000/api/v1/cursos/${id}`, {
-          method: 'DELETE'
-        });
-        const data = await res.json();
-        if (res.ok) {
-          alert("✅ Curso eliminado.");
-          await cargarCursos(); //Vuelve a cargar desde la BD actualizada
+  const token = localStorage.getItem('token');
 
-        } else {
-          alert("❌ Error al eliminar: " + data.message);
-        }
-      } catch (error) {
-        console.error("❌ Error al eliminar:", error);
-        alert("❌ Error al eliminar el curso.");
+  try {
+    const res = await fetch(`http://localhost:3000/api/v1/cursos/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
       }
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      alert("✅ Curso eliminado.");
+      await cargarCursos();
+    } else {
+      alert("❌ Error al eliminar: " + data.message);
     }
+  } catch (error) {
+    console.error("❌ Error al eliminar:", error);
+    alert("❌ Error al eliminar el curso.");
+  }
+}
+
 
     window.onload = cargarCursos;
   </script>

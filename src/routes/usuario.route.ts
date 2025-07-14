@@ -64,7 +64,7 @@ router.get('/:id', authMiddleware, obtenerUsuario);
  *         description: Error interno del servidor
  */
 
-router.post('/', authMiddleware, insertarUsuario);
+router.post('/', insertarUsuario);
 
 /**
  * @swagger

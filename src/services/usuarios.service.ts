@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { Usuario } from "../models/usuario"; 
 import { fromPrismaUsuario } from "../mappers/usuario.mapper";
 import { RESPONSE_DELETE_OK, RESPONSE_INSERT_OK, RESPONSE_UPDATE_OK } from "../shared/constants";
-
+import { hashPassword } from "../utils/bcrypt";
 
 const prisma = new PrismaClient();
 
@@ -39,14 +39,16 @@ export const obtenerUsuario = async (id: number) => {
 
 export const insertarUsuario = async (usuario: Usuario) => {
     console.log('usuariosService::insertarUsuario');
+    const hashedPassword = await hashPassword(usuario.password);
+
     await prisma.usuarios.create({
         data: {
             nombre: usuario.nombre,
             email: usuario.email,
-            password: usuario.password,
-            rol: usuario.rol, // Campo opcional
-            activo: usuario.activo, // Campo opcional
-            estado_auditoria: usuario.estado_auditoria // Campo opcional
+            password: hashedPassword, 
+            rol: usuario.rol,
+            activo: usuario.activo,
+            estado_auditoria: usuario.estado_auditoria,
         
         }
     });

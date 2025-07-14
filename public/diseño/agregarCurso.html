@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
   <title>Agregar Curso</title>
@@ -9,14 +8,36 @@
 </head>
 
 <body>
+
+<style>
+  body {
+    background-image: url("/image/fondo.jpg"); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+  </style>
+
   <div class="login-container">
-    <h1>Agregar Curso</h1>
-    <form id="formAgregarCurso">
+    <h1 class="form-title">Agregar Nuevo Curso</h1>
+
+    <form id="formAgregarCurso" class="formulario">
       <label for="titulo">Título del curso:</label>
       <input type="text" id="titulo" name="titulo" placeholder="Ej. Fundamentos de Python" required />
 
       <label for="precio">Precio (USD):</label>
       <input type="number" id="precio" name="precio" placeholder="Ej. 20.99" min="20" step="0.01" required />
+
+      <label for="nivel">Nivel:</label>
+      <select id="nivel" name="nivel" required>
+        <option value="">-- Selecciona un nivel --</option>
+        <option value="Básico">Básico</option>
+        <option value="Intermedio">Intermedio</option>
+        <option value="Avanzado">Avanzado</option>
+      </select>
 
       <label for="instructorSelect">Instructor:</label>
       <select id="instructorSelect" name="instructor_id" required>
@@ -28,17 +49,16 @@
         <option value="">Cargando categorías...</option>
       </select>
 
-      <label for="descripcion">Descripción (opcional):</label>
-      <textarea id="descripcion" name="descripcion" rows="4"placeholder="Describe brevemente el contenido del curso..."></textarea>
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe brevemente el contenido del curso..." required></textarea>
 
-
-      <button type="submit">Guardar Curso</button>
+      <button type="submit" class="btn-submit">Guardar Curso</button>
     </form>
 
     <div id="errorMsg" class="error-message"></div>
     <div id="successMsg" class="success-message"></div>
 
-    <p style="text-align: center; margin-top: 10px;">
+    <p class="volver-catalogo">
       <a href="catalogo.html">Volver al Catálogo</a>
     </p>
   </div>
@@ -50,15 +70,20 @@
     const instructorSelect = document.getElementById("instructorSelect");
     const categoriaSelect = document.getElementById("categoriaSelect");
 
-    // Cargar instructores en el select
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("⚠️ Debes iniciar sesión para agregar un curso.");
+      window.location.href = "iniciarSesion.html";
+    }
+
     async function cargarInstructores() {
       try {
-        const res = await fetch("http://localhost:3000/api/v1/instructores");
+        const res = await fetch("http://localhost:3000/api/v1/instructores", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         const data = await res.json();
-        const instructores = Array.isArray(data.data) ? data.data : [];
-
         instructorSelect.innerHTML = '<option value="">Seleccione un instructor</option>' +
-          instructores.map(i =>
+          data.data.map(i =>
             `<option value="${i.id}">${i.usuarios?.nombre || i.nombre}</option>`
           ).join('');
       } catch (error) {
@@ -67,15 +92,14 @@
       }
     }
 
-    // Cargar categorías en el select
     async function cargarCategorias() {
       try {
-        const res = await fetch("http://localhost:3000/api/v1/categorias");
+        const res = await fetch("http://localhost:3000/api/v1/categorias", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         const data = await res.json();
-        const categorias = Array.isArray(data.data) ? data.data : [];
-
         categoriaSelect.innerHTML = '<option value="">Seleccione una categoría</option>' +
-          categorias.map(c =>
+          data.data.map(c =>
             `<option value="${c.id}">${c.nombre}</option>`
           ).join('');
       } catch (error) {
@@ -84,7 +108,6 @@
       }
     }
 
-    // Enviar nuevo curso al backend
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       errorMsg.textContent = "";
@@ -92,42 +115,48 @@
 
       const titulo = form.titulo.value.trim();
       const precio = parseFloat(form.precio.value);
-      const instructor_id = parseInt(form.instructor_id.value);
-      const categoria_id = parseInt(form.categoria_id.value);
+      const nivel = form.nivel.value;
+      const instructor_id = parseInt(instructorSelect.value);
+      const categoria_id = parseInt(categoriaSelect.value);
+      const descripcion = form.descripcion.value.trim();
 
-      // Validación de título
       const regexTitulo = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{5,}$/;
-
       if (!regexTitulo.test(titulo)) {
         errorMsg.textContent = "⚠️ El título debe tener al menos 5 letras y no debe contener números ni símbolos.";
         return;
       }
-
+      if (!nivel) {
+        errorMsg.textContent = "⚠️ Debes seleccionar un nivel.";
+        return;
+      }
       if (isNaN(instructor_id)) {
         errorMsg.textContent = "⚠️ Debes seleccionar un instructor.";
         return;
       }
-
       if (isNaN(categoria_id)) {
         errorMsg.textContent = "⚠️ Debes seleccionar una categoría.";
+        return;
+      }
+      if (!descripcion) {
+        errorMsg.textContent = "⚠️ La descripción es obligatoria.";
         return;
       }
 
       try {
         const response = await fetch("http://localhost:3000/api/v1/cursos", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ titulo, precio, instructor_id, categoria_id }),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({ titulo, precio, instructor_id, categoria_id, descripcion, nivel })
         });
 
         const data = await response.json();
-
         if (response.ok) {
           successMsg.textContent = "✅ Curso agregado exitosamente.";
           form.reset();
-          setTimeout(() => {
-            window.location.href = "catalogo.html";
-          }, 2000);
+          setTimeout(() => window.location.href = "catalogo.html", 2000);
         } else {
           errorMsg.textContent = "❌ " + (data.message || "Error al guardar el curso.");
         }
@@ -143,5 +172,4 @@
     };
   </script>
 </body>
-
 </html>

@@ -81,8 +81,8 @@ router.post('/', authMiddleware, insertarInstructor);
  *           schema:
  *             type: object
  *             properties:
- *               usuario_id:
- *                 type: integer
+ *               nombre:
+ *                type: string
  *               biografia:
  *                 type: string
  *               foto_url:
@@ -125,6 +125,8 @@ router.put('/:id', authMiddleware,modificarInstructor);
  *           schema:
  *             type: object
  *             properties:
+ *               nombre:
+ *                type: string
  *               biografia:
  *                 type: string
  *               foto_url:

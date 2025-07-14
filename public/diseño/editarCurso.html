@@ -7,6 +7,19 @@
   <link rel="stylesheet" href="/estilos/style.css" />
 </head>
 <body>
+
+ <style>
+  body {
+    background-image: url("/image/fondo.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+  </style>
+
   <div class="login-container">
     <h1>Editar Curso</h1>
     <form id="formEditarCurso">
@@ -38,10 +51,14 @@
     const params = new URLSearchParams(window.location.search);
     const cursoId = params.get("id");
 
-    // Cargar instructores
-    async function cargarInstructores() {
+    // Cargar instructores con token
+    async function cargarInstructores(token) {
       try {
-        const res = await fetch("http://localhost:3000/api/v1/instructores");
+        const res = await fetch("http://localhost:3000/api/v1/instructores", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
         const data = await res.json();
         if (res.ok && Array.isArray(data.data)) {
           selectInst.innerHTML = '<option value="">Seleccione un instructor</option>' +
@@ -56,10 +73,14 @@
       }
     }
 
-    // Cargar datos del curso
-    async function cargarCurso() {
+    // Cargar datos del curso con token
+    async function cargarCurso(token) {
       try {
-        const res = await fetch(`http://localhost:3000/api/v1/cursos/${cursoId}`);
+        const res = await fetch(`http://localhost:3000/api/v1/cursos/${cursoId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
         const data = await res.json();
         if (res.ok) {
           const c = data.data;
@@ -74,15 +95,22 @@
       }
     }
 
-    // Enviar actualización
+    // Enviar actualización con token
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert("⚠️ Debes iniciar sesión.");
+        window.location.href = "iniciarSesion.html";
+        return;
+      }
 
       const titulo = form.titulo.value.trim();
       const precio = parseFloat(form.precio.value);
       const instructor_id = parseInt(form.instructorId.value);
 
-      // ✅ Validaciones
+      // Validaciones
       if (!titulo) {
         mensaje.textContent = "⚠️ El título no puede estar vacío.";
         mensaje.style.color = "red";
@@ -95,7 +123,6 @@
         return;
       }
 
-      // No debe tener números, solo letras, tildes, espacios y puntuación permitida
       const regexTitulo = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s.,:;!?()-]+$/;
       if (!regexTitulo.test(titulo)) {
         mensaje.textContent = "⚠️ El título no debe contener números ni símbolos no permitidos.";
@@ -115,16 +142,15 @@
         return;
       }
 
-      const upd = {
-        titulo,
-        precio,
-        instructor_id
-      };
+      const upd = { titulo, precio, instructor_id };
 
       try {
         const res = await fetch(`http://localhost:3000/api/v1/cursos/${cursoId}`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
           body: JSON.stringify(upd)
         });
 
@@ -143,9 +169,17 @@
       }
     });
 
+    // Verificar sesión y cargar datos
     window.onload = async () => {
-      await cargarInstructores();
-      await cargarCurso();
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("⚠️ No estás autenticado. Inicia sesión.");
+        window.location.href = "iniciarSesion.html";
+        return;
+      }
+
+      await cargarInstructores(token);
+      await cargarCurso(token);
     };
   </script>
 </body>

@@ -5,18 +5,32 @@
   <title>Instructores</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/estilos/style.css" />
+
   <style>
+
+    body {
+    background-image: url("/image/instructores.jpg"); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
     .contenedor-instructores {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 20px;
       padding: 30px;
-    }
+      max-width: 800px;
+      margin: auto;
+   }
+
 
     .tarjeta {
-      background: #fff;
+      background: #343434;
       border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(254, 254, 254, 0.647);
       padding: 20px;
       text-align: center;
       transition: transform 0.3s;
@@ -37,17 +51,17 @@
     .tarjeta h3 {
       margin: 10px 0 5px;
       font-size: 20px;
-      color: #333;
+      color: #bfbaba;
     }
 
     .tarjeta .especialidad {
-      color: #555;
+      color: #a19d9d;
       font-style: italic;
       margin-bottom: 8px;
     }
 
     .tarjeta .rating {
-      color: #f39c12;
+      color: #dac44a;
       font-weight: bold;
     }
 
@@ -60,7 +74,7 @@
       margin: 5px;
       padding: 10px 20px;
       font-size: 14px;
-      background-color: #3498db;
+      background-color: #423f2f;
       color: white;
       border: none;
       border-radius: 8px;
@@ -68,36 +82,50 @@
     }
 
     nav button:hover {
-      background-color: #2980b9;
+      background-color: #5a603f;
     }
   </style>
 </head>
 <body>
-  <h1 style="text-align:center; margin-top: 20px;">Nuestros Instructores</h1>
-  
+<h1 style="text-align: center; margin-top: 35px; color: rgb(255, 254, 254); -webkit-text-stroke: 1px rgb(0, 0, 0); "> Nuestros Instructores </h1>
+
   <div class="contenedor-instructores" id="contenedorInstructores">
     <!-- Tarjetas dinámicas -->
   </div>
 
-  <!-- Navegación común -->
+   <!-- Navegación común -->
   <nav>
+    <button onclick="location.href='catalogo.html'">Catálogo</button>
     <button onclick="location.href='iniciarSesion.html'">Iniciar Sesión</button>
     <button onclick="location.href='crearCuenta.html'">Crear Cuenta</button>
+    <button onclick="location.href='agregarInstructor.html'">Agregar Instructor</button>
   </nav>
 
   <script>
     const contenedor = document.getElementById("contenedorInstructores");
+    const token = localStorage.getItem("token");
 
     async function cargarInstructores() {
+      if (!token) {
+        alert("⚠️ Debes iniciar sesión para ver los instructores.");
+        window.location.href = "iniciarSesion.html";
+        return;
+      }
+
       try {
-        const res = await fetch("http://localhost:3000/api/v1/instructores");
+        const res = await fetch("http://localhost:3000/api/v1/instructores", {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
         const data = await res.json();
         const instructores = Array.isArray(data.data) ? data.data : [];
 
         contenedor.innerHTML = instructores.map(inst => `
           <div class="tarjeta">
-            <img src="${inst.foto_url || 'https://via.placeholder.com/120'}" alt="Foto de ${inst.usuarios?.nombre || 'Instructor'}">
-            <h3>${inst.usuarios?.nombre || 'Sin nombre'}</h3>
+            <img src="${inst.foto_url || 'https://via.placeholder.com/120'}" alt="Foto de ${inst.nombre || 'Instructor'}">
+            <h3>${inst.nombre || 'Sin nombre'}</h3>
             <div class="especialidad">${inst.especialidad || 'Sin especialidad'}</div>
             <div class="rating">⭐ ${inst.rating ?? '-'}</div>
           </div>

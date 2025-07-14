@@ -4,6 +4,9 @@ import { ResponseModel } from "../shared/responseModel";
 import { STATUS_BAD_REQUEST, STATUS_INTERNAL_SERVER_ERROR } from "../shared/constants";
 import { usuarioCrearSchema } from "../schemas/usuariosSchema"; 
 import { PrismaClient } from '@prisma/client';
+import { comparePassword } from '../utils/bcrypt';
+import { signToken } from '../auth/jwt';
+import { loginAuth } from '../auth/auth.service';
 
 
 const prisma = new PrismaClient(); 
@@ -82,29 +85,17 @@ export const loginUsuario = async (req: Request, res: Response): Promise<any> =>
   try {
     const { email, password } = req.body;
 
-    const usuario = await prisma.usuarios.findUnique({
-      where: { email }
-    });
-
-    if (!usuario) {
-      return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
-    }
-
-    if (usuario.password !== password) {
-      return res.status(401).json({ success: false, message: 'Contraseña incorrecta' });
-    }
+    const { token, usuario } = await loginAuth(email, password);
 
     return res.status(200).json({
       success: true,
       message: 'Inicio de sesión exitoso',
-      usuario: {
-        id: usuario.id,
-        nombre: usuario.nombre,
-        email: usuario.email
-      }
+      token,
+      usuario
     });
-  } catch (error) {
-    console.error('Error en login:', error);
-    return res.status(500).json({ success: false, message: 'Error del servidor' });
+
+  } catch (error: any) {
+    console.error('Error en login:', error.message);
+    return res.status(401).json({ success: false, message: error.message });
   }
-};
+}

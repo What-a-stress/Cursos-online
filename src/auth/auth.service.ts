@@ -1,18 +1,39 @@
-import { RESPONSE_CREDENTIALS_ERROR } from "../shared/constants";
-import { signToken } from "./jwt";
+import { PrismaClient } from '@prisma/client';
+import { comparePassword } from '../utils/bcrypt';
+import { signToken } from './jwt';
+import { RESPONSE_CREDENTIALS_ERROR } from '../shared/constants';
 
+const prisma = new PrismaClient();
 
+export const loginAuth = async (email: string, password: string) => {
+  console.log('auth.service::loginAuth');
 
+  const usuario = await prisma.usuarios.findUnique({
+    where: { email }
+  });
 
-export const loginAuth = async (username: string, password: string) => {
-    console.log('auth.service::loginAuth');
-    /* hacer también logico con base de datos */
+  if (!usuario) {
+    throw new Error(RESPONSE_CREDENTIALS_ERROR);
+  }
 
-    
-    if (username === 'admin' && password === 'admin') {
-        const token = signToken ({ id: 1, role: 'ADMINISTRADOR', username});
-        return token ;
-    } else {
-        return RESPONSE_CREDENTIALS_ERROR;
+  const passwordValida = await comparePassword(password, usuario.password);
+  if (!passwordValida) {
+    throw new Error(RESPONSE_CREDENTIALS_ERROR);
+  }
+
+  const token = signToken({
+    id: usuario.id,
+    role: usuario.rol,
+    username: usuario.nombre
+  });
+
+  return {
+    token,
+    usuario: {
+      id: usuario.id,
+      nombre: usuario.nombre,
+      email: usuario.email,
+      rol: usuario.rol
     }
-}
+  };
+};

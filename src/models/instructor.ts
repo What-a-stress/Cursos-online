@@ -1,6 +1,6 @@
 export interface Instructor {
     id: number;
-    usuario_id: number;
+    nombre?: string;
     biografia?: string;
     foto_url?: string;
     especialidad?: string;

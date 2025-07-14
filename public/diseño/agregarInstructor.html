@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Agregar Instructor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/estilos/style.css" />
+  <style>
+
+  body {
+    background-image: url("/image/fondo.jpg"); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f6fb;
+    }
+
+    .form-container {
+      max-width: 500px;
+      margin: 40px auto;
+      background: #424141;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(213, 211, 211, 0.967);
+    }
+
+    .form-container h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #fffcfc;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #cccccc;
+    }
+
+    input[type="text"],
+    input[type="url"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    small {
+      color: #d4d2d2;
+      font-size: 12px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 25px;
+      background-color: #3498db;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #333376;
+    }
+
+    .error-message,
+    .success-message {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .error-message {
+      color: red;
+    }
+
+    .success-message {
+      color: green;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .back-link a {
+      color: #e1dfdf;
+      text-decoration: none;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="form-container">
+    <h1>Agregar Instructor</h1>
+
+    <!-- Navegación común -->
+    <nav>
+      <button onclick="location.href='instructores.html'">Instructores</button>
+      <button onclick="location.href='iniciarSesion.html'">Iniciar Sesión</button>
+      <button onclick="location.href='crearCuenta.html'">Crear Cuenta</button>
+    </nav>
+
+    <form id="formAgregarInstructor">
+      <label for="nombre">Nombre del Instructor:</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Ej. Luis Gutiérrez" required />
+
+      <label for="biografia">Biografía:</label>
+      <textarea id="biografia" name="biografia" rows="4" placeholder="Breve biografía del instructor..." required></textarea>
+
+      <label for="foto_url">Foto (URL):</label>
+      <input type="url" id="foto_url" name="foto_url" placeholder="https://ejemplo.com/foto.jpg" required />
+
+      <label for="especialidad">Especialidad:</label>
+      <input type="text" id="especialidad" name="especialidad" maxlength="100" required />
+
+      <label for="rating">Rating (1 a 10):</label>
+      <input type="number" id="rating" name="rating" step="0.1" min="1" max="10" value="5" />
+      <small>Valor entre 1.0 y 10.0</small>
+
+      <button type="submit">Guardar Instructor</button>
+    </form>
+
+    <div id="errorMsg" class="error-message"></div>
+    <div id="successMsg" class="success-message"></div>
+
+    <div class="back-link">
+      <a href="catalogo.html">← Volver a catálogo</a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("formAgregarInstructor");
+    const errorMsg = document.getElementById("errorMsg");
+    const successMsg = document.getElementById("successMsg");
+    const submitBtn = form.querySelector("button");
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("⚠️ Debes iniciar sesión para agregar un instructor.");
+      window.location.href = "iniciarSesion.html";
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errorMsg.textContent = "";
+      successMsg.textContent = "";
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Guardando...";
+
+      const nombre = form.nombre.value.trim();
+      const biografia = form.biografia.value.trim();
+      const foto_url = form.foto_url.value.trim();
+      const especialidad = form.especialidad.value.trim();
+      const rating = parseFloat(form.rating.value);
+
+      const urlValida = /^https?:\/\/.+\.(jpg|jpeg|png|gif)$/i;
+
+      if (nombre.length < 3) {
+        errorMsg.textContent = "⚠️ El nombre debe tener al menos 3 caracteres.";
+        restablecerBoton();
+        return;
+      }
+
+      if (especialidad.length < 3) {
+        errorMsg.textContent = "⚠️ La especialidad debe tener al menos 3 caracteres.";
+        restablecerBoton();
+        return;
+      }
+
+      if (!foto_url || !urlValida.test(foto_url)) {
+        errorMsg.textContent = "⚠️ Debes ingresar una URL de imagen válida (.jpg, .png, .gif).";
+        restablecerBoton();
+        return;
+      }
+
+      if (isNaN(rating) || rating < 1 || rating > 10) {
+        errorMsg.textContent = "⚠️ El rating debe estar entre 1 y 10.";
+        restablecerBoton();
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:3000/api/v1/instructores", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            nombre,
+            biografia,
+            foto_url,
+            especialidad,
+            rating
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          successMsg.textContent = "✅ Instructor agregado correctamente. Redirigiendo...";
+          form.reset();
+          setTimeout(() => {
+            window.location.href = "catalogo.html";
+          }, 2500);
+        } else {
+          errorMsg.textContent = "❌ " + (data.message || "Error al agregar instructor.");
+          restablecerBoton();
+        }
+      } catch (error) {
+        console.error("❌ Error al enviar:", error);
+        errorMsg.textContent = "❌ Error de conexión con el servidor.";
+        restablecerBoton();
+      }
+    });
+
+    function restablecerBoton() {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Guardar Instructor";
+    }
+  </script>
+</body>
+
+</html>

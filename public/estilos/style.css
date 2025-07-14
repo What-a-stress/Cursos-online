@@ -1,10 +1,8 @@
-/* para todo el fondo*/
-html {
-  background-color: #cbcae6;
-}
-
-/* las letras */
+/* FONDO GLOBAL */
 body {
+  background-image: url("/image/login.jpg");
+  background-size: cover;
+  background-position: center;
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
@@ -12,16 +10,24 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  color: #f1f1f1;
 }
 
-/* LOS CONTENEDORES*/
+/* TÍTULOS Y CONTENEDORES */
 .container {
   text-align: center;
   margin: 10px 0;
   font-size: 30px;
-  color: #3579e6;
+  color: #b7b5e9bd;
 }
 
+h1, h2, h3 {
+  color: rgb(196, 192, 192);
+  -webkit-text-stroke: 1px rgb(0, 0, 0);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* FORMULARIOS */
 .form-group {
   margin-bottom: 15px;
   font-size: 15px;
@@ -33,16 +39,36 @@ body {
   margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
 }
 
 .box:hover {
   outline: 2px solid #7c7f86;
 }
 
-/* ESTILO DE LOS BOTONES */
-.btn, .button, button[type="submit"] {
+/* INPUTS */
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="url"],
+input[type="number"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* BOTONES */
+.btn,
+.button,
+button[type="submit"],
+nav button {
   padding: 15px 25px;
-  background-color: #3579e6;
+  background-color: #19155b;
   color: white;
   border: none;
   border-radius: 4px;
@@ -53,13 +79,30 @@ body {
 
 .btn:hover,
 .button:hover,
-button[type="submit"]:hover {
-  background-color: #104ce6;
+button[type="submit"]:hover,
+nav button:hover {
+  background-color: #1f44a3;
 }
 
-/* el diseño para el LOGIN Y CREAR CUENTA */
+/* BOTÓN AGREGAR CURSO */
+.btn-agregar {
+  background-color: #281e81;
+  padding: 12px 30px;
+  font-size: 16px;
+  border-radius: 8px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-agregar:hover {
+  background-color: #3b2bc9;
+}
+
+/* CONTENEDOR DE LOGIN */
 .login-container {
-  background-color: #ffffff;
+  background-color: #000000;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -69,27 +112,16 @@ button[type="submit"]:hover {
 
 .login-container h1 {
   text-align: center;
-  color: #333;
+  color: #d9d7d7;
 }
 
 label {
   display: block;
   margin-bottom: 8px;
-  color: #555;
+  color: #d9d7d7;
 }
 
-input[type="email"],
-input[type="password"],
-input[type="text"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-/* para los mensajes */
+/* MENSAJES */
 #mensaje, .error-message, .success-message {
   text-align: center;
   margin-top: 10px;
@@ -102,22 +134,26 @@ input[type="text"] {
 }
 
 .success-message {
-  color: green;
+  color: rgb(9, 63, 46);
   margin-bottom: 10px;
 }
 
-/* para la tabla CURSOS*/
+/* TABLA DE CURSOS */
 .styled-table {
-  width: 100%;
+  width: 95%;
   border-collapse: collapse;
   margin: 25px 0;
   font-size: 1em;
   font-family: Arial, Helvetica, sans-serif;
-  box-shadow: #000000 0px 0px 20px 0px;
+  box-shadow: #60679d 0px 0px 20px 0px;
+  color: #f1f1f1;
+  background-color: rgba(10, 10, 10, 0.6);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .styled-table thead tr {
-  background-color: #2874ef;
+  background-color: #182e51;
   color: #ffffff;
 }
 
@@ -127,18 +163,24 @@ input[type="text"] {
 }
 
 .styled-table tbody tr {
-  border-bottom: 1px solid #dddddd;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #f8f8f8;
+  border-bottom: 1px solid #444;
+}
+
+.styled-table tbody tr:hover {
+  background-color: rgba(25, 21, 91, 0.5);
 }
 
 .styled-table tbody tr:nth-of-type(even) {
-  background-color: #ffffff;
+  background-color: rgba(30, 30, 30, 0.5);
 }
 
 .styled-table tbody tr:last-of-type {
-  border-bottom: 2px solid #ffffff;
+  border-bottom: 2px solid #19155b;
 }
 
-/* la navegación entre las páginas*/
+/* NAVEGACIÓN ENTRE PÁGINAS */
 nav {
   margin-top: 30px;
   display: flex;
@@ -149,7 +191,7 @@ nav {
 
 nav button {
   padding: 10px 15px;
-  background-color: #007bff;
+  background-color: #19155b;
   color: white;
   border: none;
   border-radius: 4px;
@@ -157,11 +199,7 @@ nav button {
   transition: background-color 0.3s;
 }
 
-nav button:hover {
-  background-color: #0056b3;
-}
-
-/*esto es para que las iamgenes se vean en circulo*/
+/* IMÁGENES EN CÍRCULO */
 .imag-center {
   display: flex;
   flex-wrap: wrap;
@@ -174,9 +212,18 @@ nav button:hover {
   border: 2px solid #ffffff;
 }
 
-/* para que el diseño sea responsivo*/
+/* DISEÑO RESPONSIVO */
 @media (max-width: 480px) {
   .login-container {
     width: 90%;
+  }
+
+  .styled-table {
+    font-size: 0.85em;
+  }
+
+  .btn, .button {
+    font-size: 14px;
+    padding: 10px 15px;
   }
 }

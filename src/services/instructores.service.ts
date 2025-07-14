@@ -12,9 +12,6 @@ export const listarInstructores = async () => {
     where: {
       estado_auditoria: '1'
     },
-    include: {
-      usuarios: true //asegura que se incluya incluso si es null
-    },
     orderBy: {
       id: 'asc'
     }
@@ -39,7 +36,7 @@ export const insertarInstructor = async (instructor: Instructor) => {
     console.log('instructoresService::insertarInstructor');
     await prisma.instructores.create({
         data: {
-            usuario_id: instructor.usuario_id,
+            nombre: instructor.nombre,
             biografia: instructor.biografia,
             foto_url: instructor.foto_url,
             especialidad: instructor.especialidad,

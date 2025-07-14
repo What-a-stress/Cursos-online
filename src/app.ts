@@ -6,7 +6,6 @@ import usuariosRoute from './routes/usuario.route';
 import cursosRoute from './routes/curso.route';
 import instructoresRoute from './routes/instructor.route';
 import modulosRoute from './routes/modulo.route';
-import inscripcionesRoute from './routes/inscripcion.route';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './docs/swagger';
 import env from './config/env';
@@ -35,7 +34,6 @@ app.use(`${env.API_PREFIX}/usuarios`, usuariosRoute);
 app.use(`${env.API_PREFIX}/cursos`, cursosRoute);
 app.use(`${env.API_PREFIX}/instructores`, instructoresRoute);
 app.use(`${env.API_PREFIX}/modulos`, modulosRoute);
-app.use(`${env.API_PREFIX}/inscripciones`, inscripcionesRoute);
 app.use(`${env.API_PREFIX}/auth`, authRouter);
 
 

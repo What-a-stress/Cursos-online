@@ -17,7 +17,6 @@ export const listarCursos = async () => {
         include: {
             instructores: {
                 include: {
-                    usuarios: true 
                 }
             },
             categorias: true 
