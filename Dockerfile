@@ -5,19 +5,22 @@ WORKDIR /app
 # Copia archivos de dependencias
 COPY package*.json ./
 
+# Copia el schema de Prisma primero
+COPY prisma ./prisma/
+
 # Instala todas las dependencias
 RUN npm ci
-
-# Copia el código fuente
-COPY . .
 
 # Genera el cliente de Prisma
 RUN npx prisma generate
 
+# Copia el resto del código fuente
+COPY . .
+
 # Construye la aplicación TypeScript
 RUN npm run build
 
-# Expone el puerto (Railway usa PORT de variable de entorno)
+# Expone el puerto
 EXPOSE $PORT
 
 # Comando para ejecutar la aplicación
