@@ -71,3 +71,61 @@ export const cursoCrearSchema = Joi.object({
             'string.length': 'El estado de auditoría debe tener 1 carácter.',
         }),
 });
+
+export const cursoEditarSchema = Joi.object({
+    titulo: Joi.string()
+        .max(200)
+        .messages({
+            'string.base': 'El título debe ser texto.',
+            'string.max': 'El título no debe exceder los 200 caracteres.',
+        }),
+    descripcion: Joi.string()
+        .optional()
+        .messages({
+            'string.base': 'La descripción debe ser texto.',
+        }),
+    precio: Joi.number()
+        .precision(2)
+        .positive()
+        .messages({
+            'number.base': 'El precio debe ser un número.',
+            'number.precision': 'El precio debe tener como máximo 2 decimales.',
+            'number.positive': 'El precio debe ser un número positivo.',
+        }),
+    categoria_id: Joi.number()
+        .integer()
+        .messages({
+            'number.base': 'El ID de categoría debe ser un número.',
+            'number.integer': 'El ID de categoría debe ser un número entero.',
+        }),
+    instructor_id: Joi.number()
+        .integer()
+        .messages({
+            'number.base': 'El ID de instructor debe ser un número.',
+            'number.integer': 'El ID de instructor debe ser un número entero.',
+        }),
+    duracion_horas: Joi.number()
+        .integer()
+        .positive()
+        .messages({
+            'number.base': 'La duración en horas debe ser un número.',
+            'number.integer': 'La duración en horas debe ser un número entero.',
+            'number.positive': 'La duración en horas debe ser un número positivo.',
+        }),
+    nivel: Joi.string()
+        .valid('Básico', 'Intermedio', 'Avanzado')
+        .messages({
+            'any.only': 'El nivel debe ser Básico, Intermedio o Avanzado.',
+            'string.base': 'El nivel debe ser texto.',
+        }),
+    activo: Joi.boolean()
+        .messages({
+            'boolean.base': 'El estado activo debe ser un valor booleano.',
+        }),
+    estado_auditoria: Joi.string()
+        .length(1)
+        .messages({
+            'string.base': 'El estado de auditoría debe ser texto.',
+            'string.length': 'El estado de auditoría debe tener 1 carácter.',
+        }),
+});

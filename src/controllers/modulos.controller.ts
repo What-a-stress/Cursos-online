@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { ResponseModel } from '../shared/responseModel';
 import * as ModuloService from '../services/modulo.service';
 import { STATUS_INTERNAL_SERVER_ERROR, STATUS_BAD_REQUEST } from '../shared/constants';
-import { moduloCrearSchema } from '../schemas/moduloSchema';
+import { moduloCrearSchema,moduloEditarSchema  } from '../schemas/moduloSchema';
 
 
 
@@ -58,6 +58,11 @@ export const insertarModulo = async (req: Request, res: Response): Promise<any> 
 export const modificarModulo = async (req: Request, res: Response) => {
     console.log('modulos.controller::modificarModulo');
 
+    const { error } = moduloEditarSchema.validate(req.body);
+    if (error) {
+        return res.status(STATUS_BAD_REQUEST).json(ResponseModel.error(error.message));
+    }
+
     try {
         const { id } = req.params;
         const response = await ModuloService.modificarModulo(Number(id), req.body);
@@ -66,7 +71,7 @@ export const modificarModulo = async (req: Request, res: Response) => {
         console.error(error.message);
         res.status(STATUS_INTERNAL_SERVER_ERROR).json(ResponseModel.error(error.message));
     }
-};
+}
 
 
 

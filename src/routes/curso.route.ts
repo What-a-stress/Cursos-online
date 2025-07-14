@@ -8,7 +8,6 @@ import {
 } from "../controllers/cursos.controller";
 import { authMiddleware } from '../auth/auth.middleware';
 
-
 const router: Router = express.Router();
 
 /**
@@ -18,8 +17,7 @@ const router: Router = express.Router();
  *     description: API para gestionar cursos
  */
 
-
-router.get('/',authMiddleware,listarCursos);
+router.get('/', authMiddleware, listarCursos);
 
 /**
  * @swagger
@@ -38,7 +36,7 @@ router.get('/',authMiddleware,listarCursos);
  *         description: Error interno del servidor
  */
 
-router.get('/:id',authMiddleware, obtenerCurso);
+router.get('/:id', authMiddleware, obtenerCurso);
 
 /**
  * @swagger
@@ -66,7 +64,7 @@ router.get('/:id',authMiddleware, obtenerCurso);
  *         description: Error interno del servidor
  */
 
-router.post('/',authMiddleware, insertarCurso);
+router.post('/', authMiddleware, insertarCurso);
 
 /**
  * @swagger
@@ -81,22 +79,7 @@ router.post('/',authMiddleware, insertarCurso);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               titulo:
- *                 type: string
- *               descripcion:
- *                 type: string
- *               precio:
- *                 type: number
- *               categoria_id:
- *                 type: integer
- *               instructor_id:
- *                 type: integer
- *               duracion_horas:
- *                 type: integer
- *               nivel:
- *                 type: string
+ *             $ref: '#/components/schemas/CursoCrear'
  *     responses:
  *       201:
  *         description: Curso creado exitosamente
@@ -106,7 +89,7 @@ router.post('/',authMiddleware, insertarCurso);
  *         description: Error interno del servidor
  */
 
-router.put('/:id',authMiddleware, modificarCurso);
+router.put('/:id', authMiddleware, modificarCurso);
 
 /**
  * @swagger
@@ -128,22 +111,7 @@ router.put('/:id',authMiddleware, modificarCurso);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               titulo:
- *                 type: string
- *               descripcion:
- *                 type: string
- *               precio:
- *                 type: number
- *               categoria_id:
- *                 type: integer
- *               instructor_id:
- *                 type: integer
- *               duracion_horas:
- *                 type: integer
- *               nivel:
- *                 type: string
+ *             $ref: '#/components/schemas/CursoEditar'
  *     responses:
  *       200:
  *         description: Curso actualizado correctamente
@@ -155,7 +123,7 @@ router.put('/:id',authMiddleware, modificarCurso);
  *         description: Error interno del servidor
  */
 
-router.delete('/:id',authMiddleware, eliminarCurso);
+router.delete('/:id', authMiddleware, eliminarCurso);
 
 /**
  * @swagger

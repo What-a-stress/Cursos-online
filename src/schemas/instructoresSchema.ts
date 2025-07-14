@@ -14,46 +14,54 @@ export const instructorCrearSchema = Joi.object({
     }),
 
   biografia: Joi.string()
-    .optional()
+    .required()
     .messages({
-      'string.base': 'La biografía debe ser texto.'
+      'string.base': 'La biografía debe ser texto.',
+      'string.empty': 'La biografía es obligatoria.',
+      'any.required': 'La biografía es obligatoria.'
     }),
 
   foto_url: Joi.string()
     .uri()
     .max(255)
-    .optional()
+    .required()
     .messages({
       'string.base': 'La URL de la foto debe ser texto.',
       'string.uri': 'La URL de la foto debe ser una URL válida.',
-      'string.max': 'La URL de la foto no debe exceder los 255 caracteres.'
+      'string.max': 'La URL de la foto no debe exceder los 255 caracteres.',
+      'any.required': 'La URL de la foto es obligatoria.'
     }),
 
   especialidad: Joi.string()
     .max(100)
-    .optional()
+    .required()
     .messages({
       'string.base': 'La especialidad debe ser texto.',
-      'string.max': 'La especialidad no debe exceder los 100 caracteres.'
+      'string.max': 'La especialidad no debe exceder los 100 caracteres.',
+      'any.required': 'La especialidad es obligatoria.'
     }),
 
   rating: Joi.number()
     .precision(2)
     .min(1)
     .max(10)
-    .optional()
+    .required()
     .messages({
       'number.base': 'El rating debe ser un número.',
       'number.min': 'El rating no puede ser menor a 1.',
       'number.max': 'El rating no puede ser mayor a 10.',
-      'number.precision': 'El rating debe tener como máximo 2 decimales.'
+      'number.precision': 'El rating debe tener como máximo 2 decimales.',
+      'any.required': 'El rating es obligatorio.'
     }),
 
   estado_auditoria: Joi.string()
     .length(1)
-    .optional()
+    .required()
     .messages({
       'string.base': 'El estado de auditoría debe ser texto.',
-      'string.length': 'El estado de auditoría debe tener 1 carácter.'
+      'string.length': 'El estado de auditoría debe tener 1 carácter.',
+      'any.required': 'El estado de auditoría es obligatorio.'
     })
 });
+
+export const instructorEditarSchema = instructorCrearSchema;

@@ -4,9 +4,9 @@ import {
     insertarModulo, 
     listarModulos, 
     modificarModulo,
-    obtenerModulo } from '../controllers/modulos.controller';
+    obtenerModulo 
+} from '../controllers/modulos.controller';
 import { authMiddleware } from '../auth/auth.middleware';
-
 
 /**
  * @swagger
@@ -17,7 +17,7 @@ import { authMiddleware } from '../auth/auth.middleware';
 
 const router: Router = express.Router();
 
-router.get('/',authMiddleware, listarModulos);         
+router.get('/', authMiddleware, listarModulos);
 
 /**
  * @swagger
@@ -36,7 +36,7 @@ router.get('/',authMiddleware, listarModulos);
  *         description: Error interno del servidor
  */
 
-router.get('/:id',authMiddleware, obtenerModulo);    
+router.get('/:id', authMiddleware, obtenerModulo);
 
 /**
  * @swagger
@@ -62,7 +62,7 @@ router.get('/:id',authMiddleware, obtenerModulo);
  *         description: Error interno del servidor
  */
 
-router.post('/',authMiddleware, insertarModulo);    
+router.post('/', authMiddleware, insertarModulo);
 
 /**
  * @swagger
@@ -78,15 +78,29 @@ router.post('/',authMiddleware, insertarModulo);
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - curso_id
+ *               - titulo
+ *               - descripcion
+ *               - orden
+ *               - estado_auditoria
  *             properties:
  *               curso_id:
  *                 type: integer
+ *                 example: 1
  *               titulo:
  *                 type: string
+ *                 example: Introducción al curso
  *               descripcion:
  *                 type: string
+ *                 example: En este módulo se abordan los fundamentos.
  *               orden:
  *                 type: integer
+ *                 example: 1
+ *               estado_auditoria:
+ *                 type: string
+ *                 maxLength: 1
+ *                 example: A
  *     responses:
  *       201:
  *         description: Módulo creado exitosamente
@@ -96,7 +110,7 @@ router.post('/',authMiddleware, insertarModulo);
  *         description: Error interno del servidor
  */
 
-router.put('/:id', authMiddleware, modificarModulo);    
+router.put('/:id', authMiddleware, modificarModulo);
 
 /**
  * @swagger
@@ -119,13 +133,29 @@ router.put('/:id', authMiddleware, modificarModulo);
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - curso_id
+ *               - titulo
+ *               - descripcion
+ *               - orden
+ *               - estado_auditoria
  *             properties:
+ *               curso_id:
+ *                 type: integer
+ *                 example: 2
  *               titulo:
  *                 type: string
+ *                 example: Fundamentos técnicos
  *               descripcion:
  *                 type: string
+ *                 example: Contenido avanzado del curso.
  *               orden:
  *                 type: integer
+ *                 example: 2
+ *               estado_auditoria:
+ *                 type: string
+ *                 maxLength: 1
+ *                 example: M
  *     responses:
  *       200:
  *         description: Módulo modificado exitosamente
@@ -137,7 +167,7 @@ router.put('/:id', authMiddleware, modificarModulo);
  *         description: Error interno del servidor
  */
 
-router.delete('/:id',authMiddleware, eliminarModulo);   
+router.delete('/:id', authMiddleware, eliminarModulo);
 
 /**
  * @swagger

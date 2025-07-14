@@ -8,8 +8,6 @@ import {
 } from "../controllers/instructores.controller";
 import { authMiddleware } from '../auth/auth.middleware';
 
-
-
 /**
  * @swagger
  * tags:
@@ -19,7 +17,7 @@ import { authMiddleware } from '../auth/auth.middleware';
 
 const router: Router = express.Router();
 
-router.get('/',authMiddleware, listarInstructores);
+router.get('/', authMiddleware, listarInstructores);
 
 /**
  * @swagger
@@ -38,7 +36,7 @@ router.get('/',authMiddleware, listarInstructores);
  *         description: Error interno del servidor
  */
 
-router.get('/:id',authMiddleware, obtenerInstructor);
+router.get('/:id', authMiddleware, obtenerInstructor);
 
 /**
  * @swagger
@@ -82,7 +80,7 @@ router.post('/', authMiddleware, insertarInstructor);
  *             type: object
  *             properties:
  *               nombre:
- *                type: string
+ *                 type: string
  *               biografia:
  *                 type: string
  *               foto_url:
@@ -101,7 +99,7 @@ router.post('/', authMiddleware, insertarInstructor);
  *         description: Error interno del servidor
  */
 
-router.put('/:id', authMiddleware,modificarInstructor);
+router.put('/:id', authMiddleware, modificarInstructor);
 
 /**
  * @swagger
@@ -126,7 +124,7 @@ router.put('/:id', authMiddleware,modificarInstructor);
  *             type: object
  *             properties:
  *               nombre:
- *                type: string
+ *                 type: string
  *               biografia:
  *                 type: string
  *               foto_url:
@@ -147,7 +145,7 @@ router.put('/:id', authMiddleware,modificarInstructor);
  *         description: Error interno del servidor
  */
 
-router.delete('/:id',authMiddleware, eliminarInstructor);
+router.delete('/:id', authMiddleware, eliminarInstructor);
 
 /**
  * @swagger
