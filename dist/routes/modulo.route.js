@@ -109,6 +109,8 @@ router.put('/:id', auth_middleware_1.authMiddleware, modulos_controller_1.modifi
  *           schema:
  *             type: object
  *             properties:
+ *               categoria_id:
+ *                 type: integer
  *               titulo:
  *                 type: string
  *               descripcion:
