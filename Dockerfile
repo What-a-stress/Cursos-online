@@ -23,8 +23,11 @@ COPY . .
 # Construye la aplicación TypeScript
 RUN npm run build
 
+# Verifica que el archivo se haya compilado
+RUN ls -la dist/
+
 # Expone el puerto
 EXPOSE $PORT
 
-# Comando para ejecutar la aplicación
-CMD ["npm", "start"]
+# Comando para ejecutar la aplicación (usando el archivo correcto)
+CMD ["node", "dist/server.js"]
