@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.instructorCrearSchema = void 0;
+exports.instructorEditarSchema = exports.instructorCrearSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
 exports.instructorCrearSchema = joi_1.default.object({
     nombre: joi_1.default.string()
@@ -18,42 +18,49 @@ exports.instructorCrearSchema = joi_1.default.object({
         'any.required': 'El nombre es obligatorio.'
     }),
     biografia: joi_1.default.string()
-        .optional()
+        .required()
         .messages({
-        'string.base': 'La biografía debe ser texto.'
+        'string.base': 'La biografía debe ser texto.',
+        'string.empty': 'La biografía es obligatoria.',
+        'any.required': 'La biografía es obligatoria.'
     }),
     foto_url: joi_1.default.string()
         .uri()
         .max(255)
-        .optional()
+        .required()
         .messages({
         'string.base': 'La URL de la foto debe ser texto.',
         'string.uri': 'La URL de la foto debe ser una URL válida.',
-        'string.max': 'La URL de la foto no debe exceder los 255 caracteres.'
+        'string.max': 'La URL de la foto no debe exceder los 255 caracteres.',
+        'any.required': 'La URL de la foto es obligatoria.'
     }),
     especialidad: joi_1.default.string()
         .max(100)
-        .optional()
+        .required()
         .messages({
         'string.base': 'La especialidad debe ser texto.',
-        'string.max': 'La especialidad no debe exceder los 100 caracteres.'
+        'string.max': 'La especialidad no debe exceder los 100 caracteres.',
+        'any.required': 'La especialidad es obligatoria.'
     }),
     rating: joi_1.default.number()
         .precision(2)
         .min(1)
         .max(10)
-        .optional()
+        .required()
         .messages({
         'number.base': 'El rating debe ser un número.',
         'number.min': 'El rating no puede ser menor a 1.',
         'number.max': 'El rating no puede ser mayor a 10.',
-        'number.precision': 'El rating debe tener como máximo 2 decimales.'
+        'number.precision': 'El rating debe tener como máximo 2 decimales.',
+        'any.required': 'El rating es obligatorio.'
     }),
     estado_auditoria: joi_1.default.string()
         .length(1)
-        .optional()
+        .required()
         .messages({
         'string.base': 'El estado de auditoría debe ser texto.',
-        'string.length': 'El estado de auditoría debe tener 1 carácter.'
+        'string.length': 'El estado de auditoría debe tener 1 carácter.',
+        'any.required': 'El estado de auditoría es obligatorio.'
     })
 });
+exports.instructorEditarSchema = exports.instructorCrearSchema;

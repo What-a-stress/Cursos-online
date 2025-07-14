@@ -90,6 +90,10 @@ const insertarCurso = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.insertarCurso = insertarCurso;
 const modificarCurso = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('cursosController::modificarCurso');
+    const { error } = cursosSchema_1.cursoEditarSchema.validate(req.body);
+    if (error) {
+        return res.status(constants_1.STATUS_BAD_REQUEST).json(responseModel_1.ResponseModel.error(error.message, constants_1.STATUS_BAD_REQUEST));
+    }
     try {
         const { id } = req.params;
         const response = yield cursosService.modificarCurso(Number(id), req.body);

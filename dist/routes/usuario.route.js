@@ -77,7 +77,7 @@ router.post('/', usuarios_controller_1.insertarUsuario);
  *                 type: string
  *               rol:
  *                 type: string
- *                 example: estudiante
+ *                 example: administrador
  *     responses:
  *       201:
  *         description: Usuario registrado correctamente
@@ -152,4 +152,32 @@ router.delete('/:id', auth_middleware_1.authMiddleware, usuarios_controller_1.el
  *         description: Error interno del servidor
  */
 router.post('/login', usuarios_controller_1.loginUsuario);
+/**
+ * @swagger
+ * /api/v1/usuarios/login:
+ *   post:
+ *     summary: Iniciar sesión
+ *     tags: [Usuarios]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Inicio de sesión exitoso
+ *       401:
+ *         description: Credenciales incorrectas
+ *       500:
+ *         description: Error interno del servidor
+ */
 exports.default = router;

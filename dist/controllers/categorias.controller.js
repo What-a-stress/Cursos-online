@@ -90,6 +90,10 @@ const insertarCategoria = (req, res) => __awaiter(void 0, void 0, void 0, functi
 exports.insertarCategoria = insertarCategoria;
 const modificarCategoria = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('categorias.controller::modificarCategoria');
+    const { error } = categoriaSchema_1.categoriaEditarSchema.validate(req.body);
+    if (error) {
+        return res.status(constants_1.STATUS_BAD_REQUEST).json(responseModel_1.ResponseModel.error(error.message));
+    }
     try {
         const { id } = req.params;
         const response = yield CategoriaService.modificarCategoria(Number(id), req.body);

@@ -70,22 +70,7 @@ router.post('/', auth_middleware_1.authMiddleware, cursos_controller_1.insertarC
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               titulo:
- *                 type: string
- *               descripcion:
- *                 type: string
- *               precio:
- *                 type: number
- *               categoria_id:
- *                 type: integer
- *               instructor_id:
- *                 type: integer
- *               duracion_horas:
- *                 type: integer
- *               nivel:
- *                 type: string
+ *             $ref: '#/components/schemas/CursoCrear'
  *     responses:
  *       201:
  *         description: Curso creado exitosamente
@@ -115,22 +100,7 @@ router.put('/:id', auth_middleware_1.authMiddleware, cursos_controller_1.modific
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               titulo:
- *                 type: string
- *               descripcion:
- *                 type: string
- *               precio:
- *                 type: number
- *               categoria_id:
- *                 type: integer
- *               instructor_id:
- *                 type: integer
- *               duracion_horas:
- *                 type: integer
- *               nivel:
- *                 type: string
+ *             $ref: '#/components/schemas/CursoEditar'
  *     responses:
  *       200:
  *         description: Curso actualizado correctamente

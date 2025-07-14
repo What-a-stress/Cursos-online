@@ -43,10 +43,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.eliminarInstructor = exports.modificarInstructor = exports.insertarInstructor = exports.obtenerInstructor = exports.listarInstructores = void 0;
-const instructoresService = __importStar(require("../services/instructores.service")); // Asume que existe un archivo instructoresService.ts
+const instructoresService = __importStar(require("../services/instructores.service"));
 const responseModel_1 = require("../shared/responseModel");
 const constants_1 = require("../shared/constants");
-const instructoresSchema_1 = require("../schemas/instructoresSchema"); // Asume que existe un archivo instructorSchema.ts
+const instructoresSchema_1 = require("../schemas/instructoresSchema");
 const listarInstructores = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('instructoresController::listarInstructores');
     try {
@@ -90,6 +90,10 @@ const insertarInstructor = (req, res) => __awaiter(void 0, void 0, void 0, funct
 exports.insertarInstructor = insertarInstructor;
 const modificarInstructor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('instructoresController::modificarInstructor');
+    const { error } = instructoresSchema_1.instructorEditarSchema.validate(req.body);
+    if (error) {
+        return res.status(constants_1.STATUS_BAD_REQUEST).json(responseModel_1.ResponseModel.error(error.message, constants_1.STATUS_BAD_REQUEST));
+    }
     try {
         const { id } = req.params;
         const response = yield instructoresService.modificarInstructor(Number(id), req.body);
