@@ -2,6 +2,9 @@ FROM node:18-alpine
 
 WORKDIR /app
 
+# Instala TypeScript globalmente
+RUN npm install -g typescript
+
 # Copia archivos de dependencias
 COPY package*.json ./
 
@@ -10,9 +13,6 @@ COPY prisma ./prisma/
 
 # Instala todas las dependencias
 RUN npm ci
-
-# Da permisos de ejecución a los binarios de node_modules
-RUN chmod +x node_modules/.bin/*
 
 # Genera el cliente de Prisma
 RUN npx prisma generate
