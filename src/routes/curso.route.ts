@@ -8,6 +8,7 @@ import {
 } from "../controllers/cursos.controller";
 import { authMiddleware } from '../auth/auth.middleware';
 
+
 const router: Router = express.Router();
 
 /**
@@ -17,7 +18,8 @@ const router: Router = express.Router();
  *     description: API para gestionar cursos
  */
 
-router.get('/', authMiddleware, listarCursos);
+
+router.get('/',authMiddleware,listarCursos);
 
 /**
  * @swagger
@@ -36,7 +38,7 @@ router.get('/', authMiddleware, listarCursos);
  *         description: Error interno del servidor
  */
 
-router.get('/:id', authMiddleware, obtenerCurso);
+router.get('/:id',authMiddleware, obtenerCurso);
 
 /**
  * @swagger
@@ -64,7 +66,7 @@ router.get('/:id', authMiddleware, obtenerCurso);
  *         description: Error interno del servidor
  */
 
-router.post('/', authMiddleware, insertarCurso);
+router.post('/',authMiddleware, insertarCurso);
 
 /**
  * @swagger
@@ -79,20 +81,32 @@ router.post('/', authMiddleware, insertarCurso);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/CursoCrear'
+ *             type: object
+ *             properties:
+ *               titulo:
+ *                 type: string
+ *               descripcion:
+ *                 type: string
+ *               precio:
+ *                 type: number
+ *               categoria_id:
+ *                 type: integer
+ *               instructor_id:
+ *                 type: integer
+ *               duracion_horas:
+ *                 type: integer
+ *               nivel:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Curso creado exitosamente
  *       400:
  *         description: Datos inválidos
- *       401:
- *         description: No autorizado
  *       500:
  *         description: Error interno del servidor
  */
 
-
-router.put('/:id', authMiddleware, modificarCurso);
+router.put('/:id',authMiddleware, modificarCurso);
 
 /**
  * @swagger
@@ -114,21 +128,34 @@ router.put('/:id', authMiddleware, modificarCurso);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/CursoEditar'
+ *             type: object
+ *             properties:
+ *               titulo:
+ *                 type: string
+ *               descripcion:
+ *                 type: string
+ *               precio:
+ *                 type: number
+ *               categoria_id:
+ *                 type: integer
+ *               instructor_id:
+ *                 type: integer
+ *               duracion_horas:
+ *                 type: integer
+ *               nivel:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Curso actualizado correctamente
  *       400:
  *         description: Datos inválidos
- *       401:
- *         description: No autorizado
  *       404:
  *         description: Curso no encontrado
  *       500:
  *         description: Error interno del servidor
  */
 
-router.delete('/:id', authMiddleware, eliminarCurso);
+router.delete('/:id',authMiddleware, eliminarCurso);
 
 /**
  * @swagger

@@ -76,6 +76,8 @@ router.post('/', auth_middleware_1.authMiddleware, cursos_controller_1.insertarC
  *         description: Curso creado exitosamente
  *       400:
  *         description: Datos inválidos
+ *       401:
+ *         description: No autorizado
  *       500:
  *         description: Error interno del servidor
  */
@@ -106,6 +108,8 @@ router.put('/:id', auth_middleware_1.authMiddleware, cursos_controller_1.modific
  *         description: Curso actualizado correctamente
  *       400:
  *         description: Datos inválidos
+ *       401:
+ *         description: No autorizado
  *       404:
  *         description: Curso no encontrado
  *       500:
