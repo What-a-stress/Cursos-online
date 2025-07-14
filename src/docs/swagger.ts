@@ -6,7 +6,7 @@ const swaggerDefinition = {
     info: {
         title: 'API Cursos Online',
         version: '1.0.0',
-        description: 'Documentación de la APi',
+        description: 'Documentación de la APi del Grupo 8',
     },
     components: {
         securitySchemes: {
