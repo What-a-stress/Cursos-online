@@ -51,11 +51,12 @@ export const cursoCrearSchema = Joi.object({
             'number.positive': 'La duración en horas debe ser un número positivo.',
         }),
     nivel: Joi.string()
-        .max(20)
-        .optional()
+        .valid('Básico', 'Intermedio', 'Avanzado')
+        .required()
         .messages({
+            'any.only': 'El nivel debe ser Básico, Intermedio o Avanzado.',
+            'any.required': 'El nivel es obligatorio.',
             'string.base': 'El nivel debe ser texto.',
-            'string.max': 'El nivel no debe exceder los 20 caracteres.',
         }),
     activo: Joi.boolean()
         .optional()
