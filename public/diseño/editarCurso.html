@@ -54,7 +54,7 @@
     // Cargar instructores con token
     async function cargarInstructores(token) {
       try {
-        const res = await fetch("http://localhost:3000/api/v1/instructores", {
+        const res = await fetch("https://cursos-online-production.up.railway.app/api/v1/instructores", {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -76,7 +76,7 @@
     // Cargar datos del curso con token
     async function cargarCurso(token) {
       try {
-        const res = await fetch(`http://localhost:3000/api/v1/cursos/${cursoId}`, {
+        const res = await fetch(`https://cursos-online-production.up.railway.app/api/v1/cursos/${cursoId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -145,7 +145,7 @@
       const upd = { titulo, precio, instructor_id };
 
       try {
-        const res = await fetch(`http://localhost:3000/api/v1/cursos/${cursoId}`, {
+        const res = await fetch(`https://cursos-online-production.up.railway.app/api/v1/cursos/${cursoId}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

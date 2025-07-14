@@ -19,157 +19,167 @@
     padding: 0;
     min-height: 100vh;
   }
-  </style>
+</style>
 
-  <div class="login-container">
-    <h1 class="form-title">Agregar Nuevo Curso</h1>
+<div class="login-container">
+  <h1 class="form-title">Agregar Nuevo Curso</h1>
 
-    <form id="formAgregarCurso" class="formulario">
-      <label for="titulo">Título del curso:</label>
-      <input type="text" id="titulo" name="titulo" placeholder="Ej. Fundamentos de Python" required />
+  <form id="formAgregarCurso" class="formulario">
+    <label for="titulo">Título del curso:</label>
+    <input type="text" id="titulo" name="titulo" placeholder="Ej. Fundamentos de Python" required />
 
-      <label for="precio">Precio (USD):</label>
-      <input type="number" id="precio" name="precio" placeholder="Ej. 20.99" min="20" step="0.01" required />
+    <label for="precio">Precio (USD):</label>
+    <input type="number" id="precio" name="precio" placeholder="Ej. 20.99" min="20" step="0.01" required />
 
-      <label for="nivel">Nivel:</label>
-      <select id="nivel" name="nivel" required>
-        <option value="">-- Selecciona un nivel --</option>
-        <option value="Básico">Básico</option>
-        <option value="Intermedio">Intermedio</option>
-        <option value="Avanzado">Avanzado</option>
-      </select>
+    <!-- ✅ Nuevo campo -->
+    <label for="duracion">Duración (horas):</label>
+    <input type="number" id="duracion" name="duracion_horas" placeholder="Ej. 20" min="1" required />
 
-      <label for="instructorSelect">Instructor:</label>
-      <select id="instructorSelect" name="instructor_id" required>
-        <option value="">Cargando instructores...</option>
-      </select>
+    <label for="nivel">Nivel:</label>
+    <select id="nivel" name="nivel" required>
+      <option value="">-- Selecciona un nivel --</option>
+      <option value="Básico">Básico</option>
+      <option value="Intermedio">Intermedio</option>
+      <option value="Avanzado">Avanzado</option>
+    </select>
 
-      <label for="categoriaSelect">Categoría:</label>
-      <select id="categoriaSelect" name="categoria_id" required>
-        <option value="">Cargando categorías...</option>
-      </select>
+    <label for="instructorSelect">Instructor:</label>
+    <select id="instructorSelect" name="instructor_id" required>
+      <option value="">Cargando instructores...</option>
+    </select>
 
-      <label for="descripcion">Descripción:</label>
-      <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe brevemente el contenido del curso..." required></textarea>
+    <label for="categoriaSelect">Categoría:</label>
+    <select id="categoriaSelect" name="categoria_id" required>
+      <option value="">Cargando categorías...</option>
+    </select>
 
-      <button type="submit" class="btn-submit">Guardar Curso</button>
-    </form>
+    <label for="descripcion">Descripción:</label>
+    <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe brevemente el contenido del curso..." required></textarea>
 
-    <div id="errorMsg" class="error-message"></div>
-    <div id="successMsg" class="success-message"></div>
+    <button type="submit" class="btn-submit">Guardar Curso</button>
+  </form>
 
-    <p class="volver-catalogo">
-      <a href="catalogo.html">Volver al Catálogo</a>
-    </p>
-  </div>
+  <div id="errorMsg" class="error-message"></div>
+  <div id="successMsg" class="success-message"></div>
 
-  <script>
-    const form = document.getElementById("formAgregarCurso");
-    const errorMsg = document.getElementById("errorMsg");
-    const successMsg = document.getElementById("successMsg");
-    const instructorSelect = document.getElementById("instructorSelect");
-    const categoriaSelect = document.getElementById("categoriaSelect");
+  <p class="volver-catalogo">
+    <a href="catalogo.html">Volver al Catálogo</a>
+  </p>
+</div>
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-      alert("⚠️ Debes iniciar sesión para agregar un curso.");
-      window.location.href = "iniciarSesion.html";
+<script>
+  const form = document.getElementById("formAgregarCurso");
+  const errorMsg = document.getElementById("errorMsg");
+  const successMsg = document.getElementById("successMsg");
+  const instructorSelect = document.getElementById("instructorSelect");
+  const categoriaSelect = document.getElementById("categoriaSelect");
+
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alert("⚠️ Debes iniciar sesión para agregar un curso.");
+    window.location.href = "iniciarSesion.html";
+  }
+
+  async function cargarInstructores() {
+    try {
+      const res = await fetch("https://cursos-online-production.up.railway.app/api/v1/instructores", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await res.json();
+      instructorSelect.innerHTML = '<option value="">Seleccione un instructor</option>' +
+        data.data.map(i =>
+          `<option value="${i.id}">${i.usuarios?.nombre || i.nombre}</option>`
+        ).join('');
+    } catch (error) {
+      console.error("Error al cargar instructores:", error);
+      instructorSelect.innerHTML = '<option disabled>Error al cargar instructores</option>';
+    }
+  }
+
+  async function cargarCategorias() {
+    try {
+      const res = await fetch("https://cursos-online-production.up.railway.app/api/v1/categorias", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await res.json();
+      categoriaSelect.innerHTML = '<option value="">Seleccione una categoría</option>' +
+        data.data.map(c =>
+          `<option value="${c.id}">${c.nombre}</option>`
+        ).join('');
+    } catch (error) {
+      console.error("Error al cargar categorías:", error);
+      categoriaSelect.innerHTML = '<option disabled>Error al cargar categorías</option>';
+    }
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    errorMsg.textContent = "";
+    successMsg.textContent = "";
+
+    const titulo = form.titulo.value.trim();
+    const precio = parseFloat(form.precio.value);
+    const duracion_horas = parseInt(form.duracion.value);
+    const nivel = form.nivel.value;
+    const instructor_id = parseInt(instructorSelect.value);
+    const categoria_id = parseInt(categoriaSelect.value);
+    const descripcion = form.descripcion.value.trim();
+
+    const regexTitulo = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{5,}$/;
+    if (!regexTitulo.test(titulo)) {
+      errorMsg.textContent = "⚠️ El título debe tener al menos 5 letras y no debe contener números ni símbolos.";
+      return;
+    }
+    if (!nivel) {
+      errorMsg.textContent = "⚠️ Debes seleccionar un nivel.";
+      return;
+    }
+    if (isNaN(instructor_id)) {
+      errorMsg.textContent = "⚠️ Debes seleccionar un instructor.";
+      return;
+    }
+    if (isNaN(categoria_id)) {
+      errorMsg.textContent = "⚠️ Debes seleccionar una categoría.";
+      return;
+    }
+    if (!descripcion) {
+      errorMsg.textContent = "⚠️ La descripción es obligatoria.";
+      return;
+    }
+    if (isNaN(duracion_horas) || duracion_horas < 1) {
+      errorMsg.textContent = "⚠️ La duración debe ser mayor a 0 horas.";
+      return;
     }
 
-    async function cargarInstructores() {
-      try {
-        const res = await fetch("http://localhost:3000/api/v1/instructores", {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        const data = await res.json();
-        instructorSelect.innerHTML = '<option value="">Seleccione un instructor</option>' +
-          data.data.map(i =>
-            `<option value="${i.id}">${i.usuarios?.nombre || i.nombre}</option>`
-          ).join('');
-      } catch (error) {
-        console.error("Error al cargar instructores:", error);
-        instructorSelect.innerHTML = '<option disabled>Error al cargar instructores</option>';
+    try {
+      const response = await fetch("https://cursos-online-production.up.railway.app/api/v1/cursos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ titulo, precio, instructor_id, categoria_id, descripcion, nivel, duracion_horas })
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        successMsg.textContent = "✅ Curso agregado exitosamente.";
+        form.reset();
+        setTimeout(() => window.location.href = "catalogo.html", 2000);
+      } else {
+        errorMsg.textContent = "❌ " + (data.message || "Error al guardar el curso.");
       }
+    } catch (error) {
+      console.error("Error al enviar curso:", error);
+      errorMsg.textContent = "❌ Error al conectar con el servidor.";
     }
+  });
 
-    async function cargarCategorias() {
-      try {
-        const res = await fetch("http://localhost:3000/api/v1/categorias", {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        const data = await res.json();
-        categoriaSelect.innerHTML = '<option value="">Seleccione una categoría</option>' +
-          data.data.map(c =>
-            `<option value="${c.id}">${c.nombre}</option>`
-          ).join('');
-      } catch (error) {
-        console.error("Error al cargar categorías:", error);
-        categoriaSelect.innerHTML = '<option disabled>Error al cargar categorías</option>';
-      }
-    }
+  window.onload = () => {
+    cargarInstructores();
+    cargarCategorias();
+  };
+</script>
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      errorMsg.textContent = "";
-      successMsg.textContent = "";
-
-      const titulo = form.titulo.value.trim();
-      const precio = parseFloat(form.precio.value);
-      const nivel = form.nivel.value;
-      const instructor_id = parseInt(instructorSelect.value);
-      const categoria_id = parseInt(categoriaSelect.value);
-      const descripcion = form.descripcion.value.trim();
-
-      const regexTitulo = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{5,}$/;
-      if (!regexTitulo.test(titulo)) {
-        errorMsg.textContent = "⚠️ El título debe tener al menos 5 letras y no debe contener números ni símbolos.";
-        return;
-      }
-      if (!nivel) {
-        errorMsg.textContent = "⚠️ Debes seleccionar un nivel.";
-        return;
-      }
-      if (isNaN(instructor_id)) {
-        errorMsg.textContent = "⚠️ Debes seleccionar un instructor.";
-        return;
-      }
-      if (isNaN(categoria_id)) {
-        errorMsg.textContent = "⚠️ Debes seleccionar una categoría.";
-        return;
-      }
-      if (!descripcion) {
-        errorMsg.textContent = "⚠️ La descripción es obligatoria.";
-        return;
-      }
-
-      try {
-        const response = await fetch("http://localhost:3000/api/v1/cursos", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-          },
-          body: JSON.stringify({ titulo, precio, instructor_id, categoria_id, descripcion, nivel })
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-          successMsg.textContent = "✅ Curso agregado exitosamente.";
-          form.reset();
-          setTimeout(() => window.location.href = "catalogo.html", 2000);
-        } else {
-          errorMsg.textContent = "❌ " + (data.message || "Error al guardar el curso.");
-        }
-      } catch (error) {
-        console.error("Error al enviar curso:", error);
-        errorMsg.textContent = "❌ Error al conectar con el servidor.";
-      }
-    });
-
-    window.onload = () => {
-      cargarInstructores();
-      cargarCategorias();
-    };
-  </script>
 </body>
 </html>
