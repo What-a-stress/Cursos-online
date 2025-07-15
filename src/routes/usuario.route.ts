@@ -4,9 +4,13 @@ import {
     obtenerCategoria,
     insertarCategoria, 
     modificarCategoria,
-    eliminarCategoria
+    eliminarCategoria,
+    
+
 } from '../controllers/categorias.controller';
+
 import { authMiddleware } from '../auth/auth.middleware';
+import { loginUsuario } from '../controllers/usuarios.controller';
 
 
 const router: Router = express.Router();
@@ -163,4 +167,38 @@ router.delete('/:id',authMiddleware, eliminarCategoria);
  *         description: Error interno del servidor
  */
 
+router.post('/login', loginUsuario);
+
+/**
+ * @swagger
+ * /api/v1/usuarios/login:
+ *   post:
+ *     summary: Iniciar sesión
+ *     tags: [Usuarios]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Inicio de sesión exitoso
+ *       401:
+ *         description: Credenciales incorrectas
+ *       500:
+ *         description: Error interno del servidor
+ */
+
+
+
 export default router;
+
